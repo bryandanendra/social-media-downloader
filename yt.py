@@ -144,7 +144,8 @@ def get_video(filename):
 @app.route('/open-folder')
 def open_folder():
     try:
-        folder_path = '/Applications/XAMPP/xamppfiles/htdocs/ytdownloads/downloads/'
+        # folder_path = '/Applications/XAMPP/xamppfiles/htdocs/ytdownloads/downloads/'
+        folder_path = '/Applications/YT Downloader/downloads/'
         subprocess.run(['open', folder_path])
         return jsonify({'status': 'success'})
     except Exception as e:

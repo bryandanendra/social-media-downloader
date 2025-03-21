@@ -20,6 +20,7 @@ Aplikasi web sederhana untuk mengunduh video dari YouTube, Instagram, dan TikTok
 - Flask
 - yt-dlp
 - XAMPP (atau server web lainnya)
+- PyInstaller (untuk membuat aplikasi desktop)
 
 ## Instalasi
 
@@ -38,7 +39,7 @@ venv\Scripts\activate  # Untuk Windows
 
 3. Install dependensi yang diperlukan:
 ```bash
-pip install flask yt-dlp
+pip install flask yt-dlp pyinstaller
 ```
 
 4. Jalankan aplikasi:
@@ -50,6 +51,28 @@ python yt.py
 ```
 http://127.0.0.1:8000
 ```
+
+## Build Ulang Aplikasi Desktop
+
+Jika Anda melakukan perubahan pada kode sumber, ikuti langkah-langkah berikut untuk build ulang aplikasi:
+
+1. Pastikan berada di direktori project dan virtual environment aktif:
+```bash
+cd /Applications/XAMPP/xamppfiles/htdocs/ytdownloads
+source venv/bin/activate
+```
+
+2. Build ulang aplikasi dengan PyInstaller:
+```bash
+pyinstaller app.spec
+```
+
+3. Pindahkan hasil build ke Applications:
+```bash
+cp -R "dist/YT Downloader" "/Applications/YT Downloader"
+```
+
+4. Jalankan aplikasi dari folder Applications
 
 ## Penggunaan
 
@@ -69,7 +92,9 @@ ytdownloads/
 ├── downloads/        # Folder penyimpanan hasil unduhan
 ├── venv/            # Virtual environment Python
 ├── index.html       # Antarmuka pengguna web
-└── yt.py           # Aplikasi server Flask
+├── yt.py            # Aplikasi server Flask
+├── run_app.py       # Script untuk menjalankan aplikasi desktop
+└── app.spec         # Konfigurasi PyInstaller
 ```
 
 ## Catatan Keamanan
