@@ -42,7 +42,7 @@ Panduan instalasi dan build aplikasi Video Downloader untuk sistem operasi Windo
 
 6. Install dependensi yang diperlukan:
    ```bash
-   pip install flask yt-dlp pyinstaller
+   pip install -r requirements.txt
    ```
 
 ## Build Aplikasi Desktop
@@ -53,12 +53,17 @@ Panduan instalasi dan build aplikasi Video Downloader untuk sistem operasi Windo
    venv\Scripts\activate
    ```
 
-2. Build aplikasi dengan PyInstaller:
+2. Pastikan PyInstaller sudah diinstall:
+   ```bash
+   pip install pyinstaller
+   ```
+
+3. Build aplikasi dengan PyInstaller:
    ```bash
    pyinstaller app.spec
    ```
 
-3. Pindahkan hasil build ke Program Files:
+4. Pindahkan hasil build ke Program Files:
    ```bash
    # Buat folder jika belum ada
    mkdir "C:\Program Files\YT Downloader"
@@ -67,7 +72,7 @@ Panduan instalasi dan build aplikasi Video Downloader untuk sistem operasi Windo
    xcopy /E /I /Y "dist\YT Downloader" "C:\Program Files\YT Downloader"
    ```
 
-4. Buat shortcut di Desktop (Opsional):
+5. Buat shortcut di Desktop (Opsional):
    - Buka File Explorer
    - Navigasi ke `C:\Program Files\YT Downloader`
    - Klik kanan pada file `YT Downloader.exe`
@@ -88,7 +93,32 @@ Panduan instalasi dan build aplikasi Video Downloader untuk sistem operasi Windo
 ```bash
 cd C:\xampp\htdocs\ytdownloads
 venv\Scripts\activate
-python yt.py
+python app.py
+```
+
+## Fitur Aplikasi
+
+- ✨ Antarmuka pengguna yang modern dan responsif
+- 🎥 Mengunduh video dari YouTube (MP4 dan MP3), Instagram, dan TikTok
+- 🔍 Deteksi otomatis platform dari URL
+- 📁 Akses cepat ke folder unduhan
+- 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC)
+
+## Struktur Direktori
+
+```
+ytdownloads/
+├── assets/           # Aset statis
+├── cache/            # Cache untuk URL yang sering diakses
+├── downloads/        # Folder hasil unduhan
+├── uploads/          # Folder untuk file upload (konverter gambar)
+├── converted/        # Folder untuk hasil konversi gambar
+├── templates/        # Template HTML
+├── venv/             # Virtual environment
+├── app.py            # Aplikasi utama
+├── run_app.py        # Script menjalankan aplikasi desktop
+├── requirements.txt  # Daftar dependensi
+└── app.spec          # Konfigurasi PyInstaller
 ```
 
 ## Troubleshooting
@@ -108,7 +138,11 @@ python yt.py
    - Coba jalankan sebagai Administrator
    - Periksa Windows Event Viewer untuk detail error
 
-4. Jika folder downloads tidak bisa diakses:
+4. Jika error saat memproses gambar HEIC:
+   - Pastikan pillow-heif sudah terinstall dengan benar
+   - Jalankan: `pip install --upgrade pillow-heif`
+
+5. Jika folder downloads tidak bisa diakses:
    - Pastikan aplikasi dijalankan sebagai Administrator
    - Periksa permission folder
 
@@ -116,7 +150,7 @@ python yt.py
 
 - Pastikan XAMPP tidak menggunakan port 8000
 - Jika ingin mengubah port, edit file `run_app.py`
-- Folder downloads akan dibuat otomatis di lokasi aplikasi
+- Folder downloads, uploads, dan converted akan dibuat otomatis
 - Untuk update aplikasi, ulangi proses build dan replace files di Program Files
 
 ## Bantuan

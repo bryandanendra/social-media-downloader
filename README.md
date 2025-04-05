@@ -6,19 +6,22 @@ Aplikasi web sederhana untuk mengunduh video dari YouTube, Instagram, dan TikTok
 
 - ✨ Antarmuka pengguna yang modern dan responsif
 - 🎥 Mendukung unduhan dari:
-  - YouTube
+  - YouTube (format MP4 dan MP3)
   - Instagram
   - TikTok
 - 🔍 Deteksi otomatis platform dari URL
 - 📁 Tombol cepat untuk membuka folder unduhan
 - 🎯 Pembersihan judul file otomatis
 - 🔒 Berjalan secara lokal untuk keamanan
+- 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC)
 
 ## Persyaratan
 
 - Python 3.x
 - Flask
 - yt-dlp
+- Pillow dan pillow-heif
+- pathlib
 - XAMPP (atau server web lainnya)
 - PyInstaller (untuk membuat aplikasi desktop)
 
@@ -39,12 +42,12 @@ venv\Scripts\activate  # Untuk Windows
 
 3. Install dependensi yang diperlukan:
 ```bash
-pip install flask yt-dlp pyinstaller
+pip install -r requirements.txt
 ```
 
 4. Jalankan aplikasi:
 ```bash
-python yt.py
+python app.py
 ```
 
 5. Buka browser dan akses:
@@ -88,14 +91,25 @@ cp -R "dist/YT Downloader" "/Applications/YT Downloader"
 
 ```
 ytdownloads/
-├── assets/           # Aset statis (gambar, ikon)
+├── cache/            # Cache untuk URL yang sering diakses
 ├── downloads/        # Folder penyimpanan hasil unduhan
-├── venv/            # Virtual environment Python
-├── index.html       # Antarmuka pengguna web
-├── yt.py            # Aplikasi server Flask
-├── run_app.py       # Script untuk menjalankan aplikasi desktop
-└── app.spec         # Konfigurasi PyInstaller
+├── uploads/          # Folder untuk file upload (konverter gambar)
+├── converted/        # Folder untuk hasil konversi gambar
+├── templates/        # Template HTML
+├── venv/             # Virtual environment Python
+├── app.py            # Aplikasi server Flask
+├── run_app.py        # Script untuk menjalankan aplikasi desktop
+├── requirements.txt  # Daftar dependensi
+└── app.spec          # Konfigurasi PyInstaller
 ```
+
+## Fitur Tambahan: Konverter Gambar
+
+Aplikasi juga menyediakan fitur konversi gambar:
+1. Akses '/image-converter' di aplikasi
+2. Upload gambar (termasuk format HEIC)
+3. Pilih format output (JPG, PNG, dll)
+4. Klik 'Convert' untuk mengubah format gambar
 
 ## Catatan Keamanan
 

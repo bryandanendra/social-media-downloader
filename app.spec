@@ -7,7 +7,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('index.html', '.'),
+        ('templates', 'templates'),
         ('assets', 'assets')
     ],
     hiddenimports=['flask'],

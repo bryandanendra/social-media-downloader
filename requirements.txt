@@ -1,0 +1,5 @@
+flask>=2.0.0
+yt-dlp>=2023.7.6
+Pillow>=9.0.0
+pillow-heif>=0.10.0
+pathlib>=1.0.1 
