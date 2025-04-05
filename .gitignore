@@ -1,7 +1,0 @@
-/myenv
-/venv
-/builder
-/build
-*.pyc
-__pycache__/
-dist/
