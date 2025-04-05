@@ -15,6 +15,10 @@ Aplikasi web sederhana untuk mengunduh video dari YouTube, Instagram, dan TikTok
 - 🔒 Berjalan secara lokal untuk keamanan
 - 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC)
 
+## Tampilan UI
+
+![Tampilan UI Aplikasi](UI.png)
+
 ## Persyaratan
 
 - Python 3.x
