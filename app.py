@@ -90,7 +90,7 @@ def download_video(url, platform, format_type='mp4'):
     # Konfigurasikan ydl_opts berdasarkan platform
     if platform == 'instagram':
         ydl_opts = {
-            'format': 'best[height<=720]',  # Batasi kualitas maksimum 720p untuk lebih cepat
+            'format': 'best',  # Ubah dari 'best[height<=720]' ke 'best' untuk mendapatkan format apapun yang tersedia
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'noplaylist': True,
@@ -104,7 +104,7 @@ def download_video(url, platform, format_type='mp4'):
         }
     elif platform == 'tiktok':
         ydl_opts = {
-            'format': 'best[height<=720]',  # Batasi kualitas maksimum 720p untuk lebih cepat
+            'format': 'best',  # Ubah dari 'best[height<=720]' ke 'best' untuk mendapatkan format apapun yang tersedia
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'extract_flat': False,
@@ -190,9 +190,19 @@ def download_video(url, platform, format_type='mp4'):
             
             return result
     except Exception as e:
+        error_message = str(e)
+        
+        # Berikan pesan error yang lebih jelas dan saran solusi
+        if "format is not available" in error_message:
+            error_message = f"Format video tidak tersedia. Coba unduh dari situs asli."
+        elif "Unsupported URL" in error_message or "This URL is not supported" in error_message:
+            error_message = f"URL tidak didukung. Pastikan URL valid untuk platform {platform}."
+        elif "Sign in to confirm" in error_message or "Please log in or sign up" in error_message:
+            error_message = f"Video ini memerlukan login. Coba unduh dari situs asli."
+            
         return {
             'status': 'error',
-            'message': str(e)
+            'message': error_message
         }
 
 # Fungsi untuk Image Converter
@@ -320,7 +330,7 @@ def convert_image_api():
     target_format = request.form.get('format', 'jpeg').lower()
     
     # Validasi format yang didukung
-    if target_format not in ['jpeg', 'png', 'pdf', 'heic']:
+    if target_format not in ['jpeg', 'png', 'pdf']:
         return jsonify({'status': 'error', 'message': 'Format tidak didukung'})
     
     # Simpan file yang diupload
@@ -336,8 +346,7 @@ def convert_image_api():
     ext_map = {
         'jpeg': '.jpg',
         'png': '.png',
-        'pdf': '.pdf',
-        'heic': '.heic'
+        'pdf': '.pdf'
     }
     
     output_filename = f"{base_filename}_{timestamp}{ext_map[target_format]}"
