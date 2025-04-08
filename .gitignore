@@ -1,15 +1,9 @@
 # Direktori yang dibuat saat runtime
-/downloads/*
-/cache/*
-/converted/*
-/uploads/*
-/venv/*
-
-# Kecuali file keep dalam direktori tersebut
-!/downloads/keep/
-!/cache/keep/
-!/converted/keep/
-!/uploads/keep/
+/cache/
+/converted/
+/downloads/
+/uploads/
+/venv/
 
 # File sistem macOS
 .DS_Store
