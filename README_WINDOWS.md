@@ -1,161 +1,168 @@
-# Video Downloader - Panduan Windows
+# Video Downloader - Panduan Instalasi Windows
 
-Panduan instalasi dan build aplikasi Video Downloader untuk sistem operasi Windows.
+Panduan lengkap cara menginstall dan menggunakan aplikasi Video Downloader di Windows. Ikuti langkah-langkah dengan urutan yang benar!
 
-## Persyaratan
+## Cara Penggunaan Singkat
 
-- Python 3.x (Download dari [python.org](https://www.python.org/downloads/))
-- XAMPP (Download dari [apachefriends.org](https://www.apachefriends.org/download.html))
-- Git (opsional, untuk clone repository)
+1. Buka aplikasi dengan double-click pada file EXE atau shortcut di desktop
+2. Paste URL video dari YouTube/Instagram/TikTok
+3. Klik tombol download
+4. Tunggu hingga proses selesai
+5. File akan tersimpan di folder "downloads"
 
-## Instalasi
+## Apa Yang Diperlukan
 
-1. Install Python 3.x
-   - Download Python dari [python.org](https://www.python.org/downloads/)
-   - Saat instalasi, **PASTIKAN** centang opsi "Add Python to PATH"
-   - Klik "Install Now"
+- [Python 3.x](https://www.python.org/downloads/) (Pastikan versi 3.8 atau lebih baru)
+- [XAMPP](https://www.apachefriends.org/download.html) (Webserver)
+- Git (opsional, hanya jika ingin menggunakan clone)
 
-2. Install XAMPP
-   - Download XAMPP dari [apachefriends.org](https://www.apachefriends.org/download.html)
-   - Install di lokasi default (`C:\xampp`)
+## Langkah Instalasi (Untuk Pemula)
 
-3. Download atau Clone Repository
-   ```bash
-   # Jika menggunakan Git:
+### 1. Install Python
+
+1. Download Python dari [python.org](https://www.python.org/downloads/)
+2. **PENTING!** Saat instalasi, centang kotak "Add Python to PATH"
+   ![Add Python to PATH](https://python-docs.readthedocs.io/en/latest/_images/win_installer.png)
+3. Klik "Install Now"
+4. Tunggu hingga proses instalasi selesai
+
+### 2. Install XAMPP
+
+1. Download XAMPP dari [apachefriends.org](https://www.apachefriends.org/download.html)
+2. Jalankan installer dan ikuti petunjuk yang muncul
+3. Install di lokasi default (`C:\xampp`)
+
+### 3. Download Aplikasi
+
+**Cara 1: Menggunakan Git** (untuk yang sudah familiar)
+1. Buka Command Prompt atau PowerShell
+2. Ketik perintah berikut:
+   ```
    cd C:\xampp\htdocs
-   git clone [url-repositori] ytdownloads
-
-   # Jika tidak menggunakan Git:
-   # Download ZIP dan extract ke C:\xampp\htdocs\ytdownloads
+   git clone https://github.com/bryandanendra/social-media-downloader.git
    ```
 
-4. Buka Command Prompt sebagai Administrator
-   - Tekan Win + X
-   - Pilih "Windows Terminal (Admin)" atau "Command Prompt (Admin)"
+**Cara 2: Download ZIP** (lebih mudah untuk pemula)
+1. Kunjungi [https://github.com/bryandanendra/social-media-downloader](https://github.com/bryandanendra/social-media-downloader)
+2. Klik tombol hijau "Code"
+3. Pilih "Download ZIP"
+4. Extract file ZIP ke folder `C:\xampp\htdocs\social-media-downloader`
 
-5. Buat dan aktifkan virtual environment:
-   ```bash
-   cd C:\xampp\htdocs\ytdownloads
+### 4. Siapkan Aplikasi
+
+1. Buka Command Prompt sebagai Administrator
+   - Tekan tombol Windows
+   - Ketik "cmd"
+   - Klik kanan pada "Command Prompt" dan pilih "Run as administrator"
+
+2. Masuk ke folder aplikasi:
+   ```
+   cd C:\xampp\htdocs\social-media-downloader
+   ```
+
+3. Buat dan aktifkan lingkungan virtual Python:
+   ```
    python -m venv venv
    venv\Scripts\activate
    ```
+   > Jika perintah python tidak dikenali, coba gunakan `py` sebagai gantinya
 
-6. Install dependensi yang diperlukan:
-   ```bash
+4. Install semua yang diperlukan:
+   ```
    pip install -r requirements.txt
    ```
+   > Proses ini mungkin memerlukan waktu beberapa menit, harap bersabar
 
-## Build Aplikasi Desktop
+## Menjalankan Aplikasi
 
-1. Pastikan virtual environment aktif:
-   ```bash
-   cd C:\xampp\htdocs\ytdownloads
+### Cara Mudah (Mode Development)
+
+1. Pastikan berada di folder aplikasi dan virtual environment aktif:
+   ```
+   cd C:\xampp\htdocs\social-media-downloader
    venv\Scripts\activate
    ```
 
-2. Pastikan PyInstaller sudah diinstall:
-   ```bash
+2. Jalankan aplikasi:
+   ```
+   python app.py
+   ```
+
+3. Buka browser dan akses:
+   ```
+   http://127.0.0.1:8000
+   ```
+
+### Buat Aplikasi Desktop
+
+Jika ingin membuat aplikasi yang bisa dibuka langsung tanpa Command Prompt:
+
+1. Pastikan virtual environment aktif:
+   ```
+   cd C:\xampp\htdocs\social-media-downloader
+   venv\Scripts\activate
+   ```
+
+2. Install PyInstaller jika belum:
+   ```
    pip install pyinstaller
    ```
 
-3. Build aplikasi dengan PyInstaller:
-   ```bash
+3. Build aplikasi:
+   ```
    pyinstaller app.spec
    ```
+   > Proses ini mungkin memerlukan waktu 5-10 menit
 
-4. Pindahkan hasil build ke Program Files:
-   ```bash
-   # Buat folder jika belum ada
-   mkdir "C:\Program Files\YT Downloader"
-   
-   # Copy hasil build
+4. Copy hasil build:
+   ```
    xcopy /E /I /Y "dist\YT Downloader" "C:\Program Files\YT Downloader"
    ```
 
-5. Buat shortcut di Desktop (Opsional):
+5. Buat shortcut di Desktop:
    - Buka File Explorer
-   - Navigasi ke `C:\Program Files\YT Downloader`
+   - Buka folder `C:\Program Files\YT Downloader`
    - Klik kanan pada file `YT Downloader.exe`
    - Pilih "Create shortcut"
    - Drag shortcut ke Desktop
 
-## Menjalankan Aplikasi
-
-### Cara 1: Dari Program Files
-1. Buka File Explorer
-2. Navigasi ke `C:\Program Files\YT Downloader`
-3. Double-click `YT Downloader.exe`
-
-### Cara 2: Dari Shortcut
-- Double-click shortcut di Desktop (jika sudah dibuat)
-
-### Cara 3: Development Mode
-```bash
-cd C:\xampp\htdocs\ytdownloads
-venv\Scripts\activate
-python app.py
-```
-
 ## Fitur Aplikasi
 
-- ✨ Antarmuka pengguna yang modern dan responsif
-- 🎥 Mengunduh video dari YouTube (MP4 dan MP3), Instagram, dan TikTok
-- 🔍 Deteksi otomatis platform dari URL
-- 📁 Akses cepat ke folder unduhan
-- 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC)
+- ✨ Tampilan modern dan mudah digunakan
+- 🎥 Download video dari:
+  - YouTube (format MP4 dan MP3)
+  - Instagram (Reels dan Post)
+  - TikTok (Video)
+- 🔍 Pendeteksian otomatis jenis platform
+- 📁 Akses cepat ke folder hasil download
+- 🖼️ Konverter gambar dari HEIC ke JPG/PNG
 
-## Struktur Direktori
+## Mengatasi Masalah Umum
 
-```
-ytdownloads/
-├── assets/           # Aset statis
-├── cache/            # Cache untuk URL yang sering diakses
-├── downloads/        # Folder hasil unduhan
-├── uploads/          # Folder untuk file upload (konverter gambar)
-├── converted/        # Folder untuk hasil konversi gambar
-├── templates/        # Template HTML
-├── venv/             # Virtual environment
-├── app.py            # Aplikasi utama
-├── run_app.py        # Script menjalankan aplikasi desktop
-├── requirements.txt  # Daftar dependensi
-└── app.spec          # Konfigurasi PyInstaller
-```
+### "Python not found" atau "Python tidak dikenali"
+- Pastikan Python sudah di-install
+- Pastikan sudah centang "Add Python to PATH" saat instalasi
+- Restart komputer setelah menginstall Python
+- Coba gunakan perintah `py` sebagai pengganti `python`
 
-## Troubleshooting
+### Error saat instalasi package
+- Pastikan Command Prompt dijalankan sebagai Administrator
+- Pastikan koneksi internet stabil
+- Update pip terlebih dahulu: `pip install --upgrade pip`
+- Jika ada error pada paket tertentu, coba install satu per satu
 
-1. Jika muncul error "python not found":
-   - Pastikan Python sudah di-install
-   - Pastikan Python sudah ditambahkan ke PATH
-   - Restart Command Prompt
+### Aplikasi tidak bisa dibuka atau crash
+- Pastikan antivirus tidak memblokir aplikasi
+- Jalankan aplikasi sebagai Administrator
+- Periksa Windows Event Viewer untuk detail error
 
-2. Jika muncul error saat instalasi package:
-   - Jalankan Command Prompt sebagai Administrator
-   - Pastikan internet stabil
-   - Coba gunakan: `pip install --upgrade pip`
+### Tidak bisa akses folder downloads
+- Jalankan aplikasi sebagai Administrator
+- Periksa permission folder
 
-3. Jika aplikasi tidak bisa dibuka:
-   - Pastikan antivirus tidak memblokir aplikasi
-   - Coba jalankan sebagai Administrator
-   - Periksa Windows Event Viewer untuk detail error
+## Bantuan & Dukungan
 
-4. Jika error saat memproses gambar HEIC:
-   - Pastikan pillow-heif sudah terinstall dengan benar
-   - Jalankan: `pip install --upgrade pillow-heif`
-
-5. Jika folder downloads tidak bisa diakses:
-   - Pastikan aplikasi dijalankan sebagai Administrator
-   - Periksa permission folder
-
-## Catatan Penting
-
-- Pastikan XAMPP tidak menggunakan port 8000
-- Jika ingin mengubah port, edit file `run_app.py`
-- Folder downloads, uploads, dan converted akan dibuat otomatis
-- Untuk update aplikasi, ulangi proses build dan replace files di Program Files
-
-## Bantuan
-
-Jika mengalami masalah, bisa:
-1. Buka issue di repository
-2. Kontak @masbrii
-3. Jalankan dalam mode development untuk melihat error detail 
+Jika mengalami masalah, silakan:
+1. Buka issue di repository: https://github.com/bryandanendra/social-media-downloader/issues
+2. Kontak @bryandanendra
+3. Jalankan aplikasi melalui Command Prompt untuk melihat detail error 

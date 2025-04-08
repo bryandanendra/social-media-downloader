@@ -7,44 +7,49 @@ Aplikasi web sederhana untuk mengunduh video dari YouTube, Instagram, dan TikTok
 - ✨ Antarmuka pengguna yang modern dan responsif
 - 🎥 Mendukung unduhan dari:
   - YouTube (format MP4 dan MP3)
-  - Instagram
-  - TikTok
-- 🔍 Deteksi otomatis platform dari URL
+  - Instagram (Reels dan Post)
+  - TikTok (Video)
+- 🔍 Deteksi otomatis platform dari URL yang ditempel
 - 📁 Tombol cepat untuk membuka folder unduhan
 - 🎯 Pembersihan judul file otomatis
-- 🔒 Berjalan secara lokal untuk keamanan
-- 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC)
+- 🔒 Berjalan secara lokal untuk keamanan (tidak perlu internet untuk menjalankan aplikasi)
+- 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC untuk iPhone)
 
 ## Tampilan UI
 
 ![Tampilan UI Aplikasi](UI.png)
 
-## Persyaratan
+## Cara Penggunaan Singkat
 
+1. Buka aplikasi di browser (http://127.0.0.1:8000)
+2. Paste URL video yang ingin diunduh
+3. Platform akan terdeteksi otomatis
+4. Klik tombol unduh
+5. Tunggu proses unduhan selesai
+6. File akan tersimpan di folder "downloads"
+
+## Persyaratan Sistem
+
+Untuk pengguna **macOS & Linux**:
 - Python 3.x
-- Flask
-- yt-dlp
-- Pillow dan pillow-heif
-- pathlib
-- XAMPP (atau server web lainnya)
-- PyInstaller (untuk membuat aplikasi desktop)
+- XAMPP atau server web lainnya
 
-## Instalasi
+**Catatan**: Untuk pengguna Windows, silakan lihat [README_WINDOWS.md](README_WINDOWS.md)
 
-1. Clone repositori ini atau download ke direktori web server Anda:
+## Cara Instalasi (macOS & Linux)
+
+1. Download atau clone repositori ini:
 ```bash
-git clone [url-repositori]
+git clone https://github.com/bryandanendra/social-media-downloader.git
 ```
 
 2. Buat virtual environment dan aktifkan:
 ```bash
 python -m venv venv
 source venv/bin/activate  # Untuk Unix/macOS
-# atau
-venv\Scripts\activate  # Untuk Windows
 ```
 
-3. Install dependensi yang diperlukan:
+3. Install semua yang diperlukan:
 ```bash
 pip install -r requirements.txt
 ```
@@ -54,22 +59,22 @@ pip install -r requirements.txt
 python app.py
 ```
 
-5. Buka browser dan akses:
+5. Buka browser dan akses alamat berikut:
 ```
 http://127.0.0.1:8000
 ```
 
-## Build Ulang Aplikasi Desktop
+## Membuat Aplikasi Desktop (Opsional)
 
-Jika Anda melakukan perubahan pada kode sumber, ikuti langkah-langkah berikut untuk build ulang aplikasi:
+Jika ingin membuat aplikasi yang bisa dibuka langsung tanpa terminal, ikuti langkah berikut:
 
 1. Pastikan berada di direktori project dan virtual environment aktif:
 ```bash
-cd /Applications/XAMPP/xamppfiles/htdocs/ytdownloads
+cd /Applications/XAMPP/xamppfiles/htdocs/social-media-downloader
 source venv/bin/activate
 ```
 
-2. Build ulang aplikasi dengan PyInstaller:
+2. Build aplikasi dengan PyInstaller:
 ```bash
 pyinstaller app.spec
 ```
@@ -81,20 +86,19 @@ cp -R "dist/YT Downloader" "/Applications/YT Downloader"
 
 4. Jalankan aplikasi dari folder Applications
 
-## Penggunaan
+## Menggunakan Konverter Gambar
 
-1. Buka aplikasi di browser
-2. Paste URL video yang ingin diunduh
-3. Platform akan terdeteksi otomatis
-4. Klik tombol unduh
-5. Tunggu proses unduhan selesai
-6. Klik 'Save File' untuk menyimpan video
-7. Atau klik tombol folder untuk membuka lokasi file
+Aplikasi ini juga memiliki fitur untuk mengubah format gambar:
+1. Klik menu "Image Converter" di aplikasi
+2. Upload gambar (termasuk format HEIC dari iPhone)
+3. Pilih format output (JPG, PNG, dll)
+4. Klik 'Convert' untuk mengubah format gambar
+5. Download hasil konversi
 
-## Struktur Direktori
+## Struktur Folder
 
 ```
-ytdownloads/
+social-media-downloader/
 ├── cache/            # Cache untuk URL yang sering diakses
 ├── downloads/        # Folder penyimpanan hasil unduhan
 ├── uploads/          # Folder untuk file upload (konverter gambar)
@@ -107,19 +111,19 @@ ytdownloads/
 └── app.spec          # Konfigurasi PyInstaller
 ```
 
-## Fitur Tambahan: Konverter Gambar
-
-Aplikasi juga menyediakan fitur konversi gambar:
-1. Akses '/image-converter' di aplikasi
-2. Upload gambar (termasuk format HEIC)
-3. Pilih format output (JPG, PNG, dll)
-4. Klik 'Convert' untuk mengubah format gambar
-
-## Catatan Keamanan
+## Catatan Penting
 
 - Aplikasi ini berjalan secara lokal (localhost) untuk keamanan
-- Pastikan untuk tidak membuka port 8000 ke jaringan publik
+- Pastikan port 8000 tidak digunakan oleh aplikasi lain
 - Gunakan virtual environment untuk mengisolasi dependensi
+- Folder downloads, uploads, dan converted akan dibuat otomatis
+
+## Bantuan & Dukungan
+
+Jika mengalami masalah, silakan:
+1. Buka issue di repository: https://github.com/bryandanendra/social-media-downloader/issues
+2. Kontak @bryandanendra
+3. Jalankan aplikasi melalui terminal untuk melihat pesan error
 
 ## Lisensi
 
@@ -127,4 +131,4 @@ Proyek ini dilisensikan di bawah Lisensi MIT - lihat file LICENSE untuk detail.
 
 ## Kredit
 
-Dibuat oleh @masbrii 
+Dibuat oleh @bryandanendra 
