@@ -1,7 +1,32 @@
-/myenv
-/venv
-/builder
-/build
-*.pyc
+# Direktori yang dibuat saat runtime
+/downloads/*
+/cache/*
+/converted/*
+/uploads/*
+/venv/*
+
+# Kecuali file keep dalam direktori tersebut
+!/downloads/keep/
+!/cache/keep/
+!/converted/keep/
+!/uploads/keep/
+
+# File sistem macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment dan log files
+*.log
+*.env
 __pycache__/
-dist/
+*.py[cod]
+*$py.class
+
+# Direktori build
+/dist/
+/build/ 

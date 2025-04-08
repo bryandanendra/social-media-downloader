@@ -16,12 +16,13 @@ if __name__ == '__main__':
     
     os.chdir(application_path)
     
-    # Buat folder downloads jika belum ada
-    if not os.path.exists('downloads'):
-        os.makedirs('downloads')
+    # Pastikan folder yang diperlukan sudah ada
+    for folder in ['downloads', 'uploads', 'converted']:
+        if not os.path.exists(folder):
+            os.makedirs(folder)
     
     # Import dan jalankan aplikasi Flask
-    from yt import app
+    from app import app
     
     # Buka browser setelah 1.5 detik
     Timer(1.5, open_browser).start()
