@@ -14,6 +14,7 @@ Panduan lengkap cara menginstall dan menggunakan aplikasi Video Downloader di Wi
 
 - [Python 3.x](https://www.python.org/downloads/) (Pastikan versi 3.8 atau lebih baru)
 - [XAMPP](https://www.apachefriends.org/download.html) (Webserver)
+- [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/latest) (Diperlukan untuk konversi video)
 - Git (opsional, hanya jika ingin menggunakan clone)
 
 ## Langkah Instalasi (Untuk Pemula)
@@ -32,7 +33,23 @@ Panduan lengkap cara menginstall dan menggunakan aplikasi Video Downloader di Wi
 2. Jalankan installer dan ikuti petunjuk yang muncul
 3. Install di lokasi default (`C:\xampp`)
 
-### 3. Download Aplikasi
+### 3. Install FFmpeg (Penting!)
+
+1. Download FFmpeg dari [GitHub releases](https://github.com/BtbN/FFmpeg-Builds/releases/latest)
+   - Pilih file `ffmpeg-master-latest-win64-gpl.zip`
+2. Ekstrak file ZIP ke lokasi permanen, misalnya `C:\FFmpeg`
+3. Tambahkan FFmpeg ke PATH Windows:
+   - Tekan `Win + X` dan pilih "Sistem"
+   - Klik "Pengaturan sistem lanjutan"
+   - Klik "Variabel Lingkungan"
+   - Di bagian "Variabel Sistem", cari "Path", pilih dan klik "Edit"
+   - Klik "Baru" dan tambahkan path ke folder bin FFmpeg (contoh: `C:\FFmpeg\bin`)
+   - Klik "OK" di semua jendela dialog
+4. Restart Command Prompt/PowerShell jika sudah terbuka
+
+> **Catatan Penting**: Tanpa FFmpeg, aplikasi tidak dapat mengunduh video YouTube dalam format MP3 atau menggabungkan format video/audio.
+
+### 4. Download Aplikasi
 
 **Cara 1: Menggunakan Git** (untuk yang sudah familiar)
 1. Buka Command Prompt atau PowerShell
@@ -48,7 +65,7 @@ Panduan lengkap cara menginstall dan menggunakan aplikasi Video Downloader di Wi
 3. Pilih "Download ZIP"
 4. Extract file ZIP ke folder `C:\xampp\htdocs\social-media-downloader`
 
-### 4. Siapkan Aplikasi
+### 5. Siapkan Aplikasi
 
 1. Buka Command Prompt sebagai Administrator
    - Tekan tombol Windows
@@ -159,6 +176,13 @@ Jika ingin membuat aplikasi yang bisa dibuka langsung tanpa Command Prompt:
 ### Tidak bisa akses folder downloads
 - Jalankan aplikasi sebagai Administrator
 - Periksa permission folder
+
+### Error "ffmpeg is not installed" atau "You have requested merging of multiple formats but ffmpeg is not installed"
+- Pastikan FFmpeg sudah diinstall dengan benar (lihat bagian "Install FFmpeg" di atas)
+- Verifikasi FFmpeg sudah terdaftar di PATH dengan menjalankan `ffmpeg -version` di Command Prompt
+- Jika masih bermasalah, coba instal ulang FFmpeg di lokasi berbeda (misal: `C:\Program Files\FFmpeg`)
+- Pastikan folder bin FFmpeg (yang berisi ffmpeg.exe) ditambahkan ke sistem PATH
+- Restart komputer setelah menambahkan FFmpeg ke PATH
 
 ## Bantuan & Dukungan
 
