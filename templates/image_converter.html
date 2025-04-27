@@ -279,7 +279,7 @@
                     <a class="nav-link" id="downloader-tab" href="/" role="tab">Downloader Video</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="converter-tab" href="/image-converter" role="tab">Konverter Gambar</a>
+                    <a class="nav-link active" id="converter-tab" href="/image-converter" role="tab"> Image Converter</a>
                 </li>
             </ul>
 
@@ -287,8 +287,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <p>Seret & letakkan gambar di sini atau klik untuk memilih</p>
-                <p class="text-muted">Format yang didukung: PNG, JPG, JPEG</p>
+                <p>drag and drop Image here or click to select</p>
+                <p class="text-muted">Supported Format: PNG, JPG, JPEG</p>
                 <input type="file" id="fileInput" style="display:none" accept=".png,.jpg,.jpeg">
             </div>
 
@@ -320,7 +320,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-exchange-alt me-2"></i>Konversi
+                    <i class="fas fa-exchange-alt me-2"></i>Convert
                 </button>
             </form>
 
@@ -328,7 +328,7 @@
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <p class="mt-3">Sedang mengkonversi gambar...</p>
+                <p class="mt-3">Converting Image...</p>
             </div>
 
             <div class="result-section">
@@ -336,7 +336,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#34C759" class="mb-3" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                     </svg>
-                    <h5 class="mb-3" id="successMessage">Konversi berhasil!</h5>
+                    <h5 class="mb-3" id="successMessage">Conversion Success!</h5>
                     <a id="downloadLink" class="btn btn-success" href="#" download>
                         <i class="fas fa-download me-2"></i>Download File
                     </a>
