@@ -34,16 +34,18 @@
         .container {
             max-width: 900px;
             margin: 10px auto;
+            padding-left: 15px;
+            padding-right: 15px;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         
         .header h1 {
             font-weight: 700;
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             color: var(--light-text);
         }
@@ -53,22 +55,42 @@
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
             border: none;
-            padding: 0 30px 30px 30px;
+            padding: 0 20px 25px 20px;
             margin-bottom: 30px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        @media (min-width: 768px) {
+            .card {
+                padding: 0 30px 30px 30px;
+            }
+            
+            .header h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-tabs {
+                flex-wrap: nowrap;
+            }
+            
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
         }
         
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-control {
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
             border: 1px solid #333;
             font-size: 1rem;
@@ -85,7 +107,7 @@
         }
         
         .form-select {
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
             border: 1px solid #333;
             font-size: 1rem;
@@ -104,7 +126,7 @@
         .btn-primary {
             background-color: var(--primary-color);
             border: none;
-            padding: 14px 24px;
+            padding: 12px 20px;
             font-weight: 600;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -119,7 +141,7 @@
         
         .nav-tabs {
             border-bottom: none;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             justify-content: center;
         }
         
@@ -147,8 +169,9 @@
         .platform-options {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         
         .platform-item {
@@ -156,7 +179,8 @@
             justify-content: center;
             align-items: center;
             flex: 1;
-            padding: 15px;
+            min-width: 80px;
+            padding: 12px;
             background-color: #252525;
             border-radius: 10px;
             cursor: pointer;
@@ -176,8 +200,14 @@
         }
         
         .platform-icon {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--primary-color);
+        }
+        
+        @media (min-width: 576px) {
+            .platform-icon {
+                font-size: 24px;
+            }
         }
         
         .platform-info {
@@ -199,12 +229,12 @@
         .format-options {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
         .format-option {
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             background-color: #252525;
             border: 1px solid #333;
@@ -229,28 +259,54 @@
         }
         
         .format-option i {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+        
+        @media (min-width: 576px) {
+            .format-option i {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
         }
         
         .format-option span {
             display: block;
             font-weight: 500;
             color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        @media (min-width: 576px) {
+            .format-option span {
+                font-size: 1rem;
+            }
         }
         
         .alert {
-            padding: 16px;
+            padding: 14px;
             border-radius: 10px;
             margin-top: 20px;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .alert i {
-            font-size: 20px;
-            margin-right: 15px;
+            font-size: 18px;
+            margin-right: 12px;
+        }
+        
+        @media (min-width: 576px) {
+            .alert {
+                padding: 16px;
+            }
+            
+            .alert i {
+                font-size: 20px;
+                margin-right: 15px;
+            }
         }
         
         .alert-success {
@@ -268,19 +324,45 @@
         .loading-spinner {
             display: none;
             text-align: center;
-            margin: 30px 0;
+            margin: 25px 0;
         }
         
         .spinner-border {
             color: var(--primary-color);
-            width: 3rem;
-            height: 3rem;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        
+        @media (min-width: 576px) {
+            .spinner-border {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 576px) {
+            .alert div {
+                width: 100%;
+                margin-top: 5px;
+            }
+            
+            .btn-success {
+                width: 100% !important;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header ">
+        <div class="header">
             <h1>DynamicDownloader</h1>
         </div>
 
@@ -297,7 +379,7 @@
             <form id="downloadForm" method="post">
                 <div class="form-group">
                     <label for="url" class="form-label mb-2">URL Video:</label>
-                    <input type="url" class="form-control" id="url" name="url" placeholder="Masukkan URL video yang ingin di-download" required>
+                    <input type="url" class="form-control" id="url" name="url" placeholder="Masukkan URL video" required>
                 </div>
 
                 <div class="form-group">
@@ -405,7 +487,7 @@
                     const platform = this.getAttribute('data-platform');
                     platformInput.value = platform;
                     
-                    // Show/hide format options based on platform
+                    // Show format options for all platforms
                     formatGroup.style.display = 'block';
                 });
             });
@@ -473,7 +555,7 @@
                         `;
                     } else {
                         // Tampilkan pesan error
-                        showError(data.message || 'Terjadi kesalahan saat mengunduh video');
+                        showError(data.message || 'Terjadi kesalahan saat mengunduh');
                     }
                 })
                 .catch(error => {

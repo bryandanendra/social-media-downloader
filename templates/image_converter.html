@@ -32,18 +32,41 @@
         .container {
             max-width: 900px;
             margin: 10px auto;
+            padding-left: 15px;
+            padding-right: 15px;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         
         .header h1 {
             font-weight: 700;
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             color: var(--light-text);
+        }
+        
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-tabs {
+                flex-wrap: nowrap;
+            }
+            
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
         }
         
         .card {
@@ -51,22 +74,22 @@
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
             border: none;
-            padding: 0 30px 30px 30px;
+            padding: 0 20px 25px 20px;
             margin-bottom: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        @media (min-width: 768px) {
+            .card {
+                padding: 0 30px 30px 30px;
+            }
         }
         
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-select {
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
             border: 1px solid #333;
             font-size: 1rem;
@@ -85,7 +108,7 @@
         .btn-primary {
             background-color: var(--primary-color);
             border: none;
-            padding: 14px 24px;
+            padding: 12px 20px;
             font-weight: 600;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -101,10 +124,18 @@
         .btn-success {
             background-color: var(--success-color);
             border: none;
-            padding: 12px 20px;
+            padding: 10px 16px;
             font-weight: 600;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+        }
+        
+        @media (max-width: 576px) {
+            .btn-success {
+                max-width: 100%;
+            }
         }
         
         .btn-success:hover {
@@ -115,7 +146,7 @@
         
         .nav-tabs {
             border-bottom: none;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             justify-content: center;
         }
         
@@ -143,12 +174,19 @@
         #dropArea {
             border: 2px dashed rgba(0, 122, 255, 0.3);
             border-radius: var(--border-radius);
-            padding: 40px;
+            padding: 25px 15px;
             text-align: center;
             cursor: pointer;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             transition: all 0.3s ease;
             background-color: #252525;
+        }
+        
+        @media (min-width: 576px) {
+            #dropArea {
+                padding: 30px;
+                margin-bottom: 30px;
+            }
         }
         
         #dropArea.highlight {
@@ -158,49 +196,92 @@
         
         #dropArea p {
             color: var(--light-text);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        
+        @media (min-width: 576px) {
+            #dropArea p {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
         }
         
         #dropArea .text-muted {
             color: var(--gray-text) !important;
+            font-size: 0.85rem;
+        }
+        
+        @media (min-width: 576px) {
+            #dropArea .text-muted {
+                font-size: 0.95rem;
+            }
         }
         
         #dropArea svg {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+        }
+        
+        @media (min-width: 576px) {
+            #dropArea svg {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 15px;
+            }
         }
         
         #previewImage {
             max-width: 100%;
-            max-height: 300px;
-            margin-bottom: 30px;
+            max-height: 250px;
+            margin-bottom: 25px;
             display: none;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         
+        @media (min-width: 768px) {
+            #previewImage {
+                max-height: 300px;
+                margin-bottom: 30px;
+            }
+        }
+        
         .loading-spinner {
             display: none;
             text-align: center;
-            margin: 30px 0;
+            margin: 25px 0;
         }
         
         .spinner-border {
             color: var(--primary-color);
-            width: 3rem;
-            height: 3rem;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        
+        @media (min-width: 576px) {
+            .spinner-border {
+                width: 3rem;
+                height: 3rem;
+            }
         }
         
         .result-section {
-            margin-top: 30px;
+            margin-top: 25px;
             display: none;
-            padding: 25px;
+            padding: 20px 15px;
             border-radius: var(--border-radius);
             background-color: rgba(52, 199, 89, 0.1);
             border: 1px solid rgba(52, 199, 89, 0.3);
+        }
+        
+        @media (min-width: 576px) {
+            .result-section {
+                margin-top: 30px;
+                padding: 25px;
+            }
         }
         
         #dropArea:hover p {
@@ -214,8 +295,9 @@
         .platform-options {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         
         .platform-item {
@@ -223,7 +305,8 @@
             justify-content: center;
             align-items: center;
             flex: 1;
-            padding: 15px;
+            min-width: 70px;
+            padding: 12px 10px;
             background-color: #252525;
             border-radius: 10px;
             cursor: pointer;
@@ -243,8 +326,14 @@
         }
         
         .platform-icon {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--primary-color);
+        }
+        
+        @media (min-width: 576px) {
+            .platform-icon {
+                font-size: 24px;
+            }
         }
         
         .platform-info {
@@ -256,6 +345,13 @@
             font-weight: 600;
             margin-bottom: 0;
             color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        @media (min-width: 576px) {
+            .platform-info h5 {
+                font-size: 1rem;
+            }
         }
         
         .platform-item:hover .platform-info h5 {
@@ -287,8 +383,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <p>drag and drop Image here or click to select</p>
-                <p class="text-muted">Supported Format: PNG, JPG, JPEG</p>
+                <p>Drag and drop gambar di sini atau klik untuk memilih</p>
+                <p class="text-muted">Format: PNG, JPG, JPEG</p>
                 <input type="file" id="fileInput" style="display:none" accept=".png,.jpg,.jpeg">
             </div>
 
@@ -328,16 +424,16 @@
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <p class="mt-3">Converting Image...</p>
+                <p class="mt-3">Sedang mengkonversi...</p>
             </div>
 
             <div class="result-section">
                 <div class="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#34C759" class="mb-3" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#34C759" class="mb-3" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                     </svg>
-                    <h5 class="mb-3" id="successMessage">Conversion Success!</h5>
-                    <a id="downloadLink" class="btn btn-success" href="#" download>
+                    <h5 class="mb-3" id="successMessage">Konversi Berhasil!</h5>
+                    <a id="downloadLink" class="btn btn-success mx-auto d-block" href="#" download>
                         <i class="fas fa-download me-2"></i>Download File
                     </a>
                 </div>
@@ -357,104 +453,94 @@
             const formatInput = document.getElementById('format');
             const loadingSpinner = document.querySelector('.loading-spinner');
             const resultSection = document.querySelector('.result-section');
-            const successMessage = document.getElementById('successMessage');
             const downloadLink = document.getElementById('downloadLink');
-
+            const successMessage = document.getElementById('successMessage');
+            
+            let selectedFile = null;
+            
             // Format selection
             formatItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    // Remove active class from all items
                     formatItems.forEach(i => i.classList.remove('active'));
-                    
-                    // Add active class to clicked item
                     this.classList.add('active');
-                    
-                    // Update hidden input
                     formatInput.value = this.getAttribute('data-format');
                 });
             });
             
-            // Variabel untuk menyimpan file yang di-drop
-            let droppedFile = null;
-
-            // Event listener untuk drag & drop
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false);
-            });
-
-            function preventDefaults(e) {
+            // File drop handling
+            dropArea.addEventListener('dragover', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-            }
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false);
+                this.classList.add('highlight');
             });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false);
+            
+            dropArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('highlight');
             });
-
-            function highlight() {
-                dropArea.classList.add('highlight');
-            }
-
-            function unhighlight() {
-                dropArea.classList.remove('highlight');
-            }
-
+            
             dropArea.addEventListener('drop', function(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
+                e.preventDefault();
+                e.stopPropagation();
+                this.classList.remove('highlight');
                 
+                const files = e.dataTransfer.files;
                 if (files.length > 0) {
-                    droppedFile = files[0];
-                    handleFile(droppedFile);
+                    handleFile(files[0]);
                 }
             });
             
-            dropArea.addEventListener('click', () => fileInput.click());
+            dropArea.addEventListener('click', function() {
+                fileInput.click();
+            });
             
-            fileInput.addEventListener('change', function(e) {
+            fileInput.addEventListener('change', function() {
                 if (this.files.length > 0) {
-                    droppedFile = this.files[0];
-                    handleFile(droppedFile);
+                    handleFile(this.files[0]);
                 }
             });
-
+            
             function handleFile(file) {
-                if (!file) return;
-
-                // Tampilkan preview gambar
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Format file tidak didukung. Silakan upload file JPG, JPEG, atau PNG.');
+                    return;
+                }
+                
+                // Store selected file
+                selectedFile = file;
+                
+                // Show preview
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewImage.src = e.target.result;
                     previewImage.style.display = 'block';
-                    
-                    // Scroll to preview image
-                    previewImage.scrollIntoView({ behavior: 'smooth' });
-                }
+                    dropArea.style.display = 'none';
+                };
                 reader.readAsDataURL(file);
             }
-
+            
+            // Form submission
             converterForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                if (!droppedFile) {
-                    alert('Silakan pilih gambar terlebih dahulu!');
+                if (!selectedFile) {
+                    alert('Pilih gambar terlebih dahulu');
                     return;
                 }
-
-                const format = document.querySelector('.platform-item.active').getAttribute('data-format');
-
-                const formData = new FormData();
-                formData.append('file', droppedFile);
-                formData.append('format', format);
-
-                // Tampilkan loading spinner
+                
+                // Show loading spinner
                 loadingSpinner.style.display = 'block';
                 resultSection.style.display = 'none';
-
+                
+                // Create form data
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('format', formatInput.value);
+                
+                // Send request
                 fetch('/convert-image', {
                     method: 'POST',
                     body: formData
@@ -464,20 +550,18 @@
                     loadingSpinner.style.display = 'none';
                     
                     if (data.status === 'success') {
+                        // Update success message
                         resultSection.style.display = 'block';
-                        successMessage.textContent = 'Konversi berhasil!';
                         downloadLink.href = data.download_url;
-                        downloadLink.download = data.filename;
-                        
-                        // Scroll to result section
-                        resultSection.scrollIntoView({ behavior: 'smooth' });
+                        successMessage.textContent = 'Konversi berhasil!';
                     } else {
                         alert('Error: ' + data.message);
                     }
                 })
                 .catch(error => {
                     loadingSpinner.style.display = 'none';
-                    alert('Terjadi kesalahan: ' + error);
+                    alert('Terjadi kesalahan saat mengkonversi gambar');
+                    console.error('Error:', error);
                 });
             });
         });
