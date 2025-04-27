@@ -34,6 +34,12 @@ def clean_tiktok_title(title):
     # Jika ada hashtag (#), ambil teks sebelum hashtag pertama
     if '#' in title:
         title = title.split('#')[0].strip()
+    
+    # Hapus karakter yang tidak aman untuk nama file
+    title = re.sub(r'[^\w\s-]', '', title)
+    # Ganti spasi dengan underscore
+    title = re.sub(r'\s+', '_', title.strip())
+    
     return title
 
 def clean_instagram_title(info):
@@ -57,6 +63,17 @@ def clean_instagram_title(info):
     except:
         # Fallback ke timestamp jika terjadi error
         return f"ig_video_{int(time.time())}"
+
+def clean_filename(filename):
+    """Membersihkan nama file dari karakter yang tidak diizinkan"""
+    # Hapus karakter yang tidak aman untuk nama file
+    filename = re.sub(r'[^\w\s.-]', '', filename)
+    # Ganti spasi dengan underscore
+    filename = re.sub(r'\s+', '_', filename.strip())
+    # Pastikan nama file tidak kosong
+    if not filename:
+        filename = f"file_{int(time.time())}"
+    return filename
 
 def get_cache_key(url, platform, format_type):
     """Membuat cache key unik berdasarkan URL, platform, dan format"""
@@ -102,6 +119,21 @@ def download_video(url, platform, format_type='mp4'):
                 '-movflags', '+faststart'
             ],
         }
+        
+        # Jika format MP3 dipilih
+        if format_type == 'mp3':
+            ydl_opts = {
+                'format': 'bestaudio/best',
+                'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
+                'noplaylist': True,
+                'quiet': True,
+                'no_warnings': True,
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '192',
+                }],
+            }
     elif platform == 'tiktok':
         ydl_opts = {
             'format': 'best',  # Ubah dari 'best[height<=720]' ke 'best' untuk mendapatkan format apapun yang tersedia
@@ -118,6 +150,21 @@ def download_video(url, platform, format_type='mp4'):
                 '-movflags', '+faststart'
             ],
         }
+        
+        # Jika format MP3 dipilih
+        if format_type == 'mp3':
+            ydl_opts = {
+                'format': 'bestaudio/best',
+                'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
+                'noplaylist': True,
+                'quiet': True,
+                'no_warnings': True,
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '192',
+                }],
+            }
     else:  # youtube
         if format_type == 'mp3':
             ydl_opts = {
@@ -157,8 +204,11 @@ def download_video(url, platform, format_type='mp4'):
                 title = clean_tiktok_title(title)
                 old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp4"
                 new_filename = f"{DOWNLOAD_FOLDER}/{title}.mp4"
-                if os.path.exists(old_filename):
-                    os.rename(old_filename, new_filename)
+                try:
+                    if os.path.exists(old_filename):
+                        os.rename(old_filename, new_filename)
+                except Exception as e:
+                    print(f"Error renaming TikTok file: {e}")
             elif platform == 'instagram':
                 # Gunakan caption atau timestamp untuk nama file
                 new_title = clean_instagram_title(info)
@@ -171,13 +221,47 @@ def download_video(url, platform, format_type='mp4'):
                     new_title = f"{new_title}_{int(time.time())}"
                     new_filename = f"{DOWNLOAD_FOLDER}/{new_title}.mp4"
                 
-                if os.path.exists(old_filename):
-                    os.rename(old_filename, new_filename)
+                try:
+                    if os.path.exists(old_filename):
+                        os.rename(old_filename, new_filename)
+                except Exception as e:
+                    print(f"Error renaming Instagram file: {e}")
                 title = new_title
+            elif platform == 'youtube':
+                # Bersihkan judul YouTube juga
+                original_title = title
+                title = clean_filename(title)
+                
+                # Jika judul berubah, rename file
+                if original_title != title:
+                    extension = "mp4"
+                    if format_type == "mp3":
+                        extension = "mp3"
+                    
+                    old_filename = f"{DOWNLOAD_FOLDER}/{original_title}.{extension}"
+                    new_filename = f"{DOWNLOAD_FOLDER}/{title}.{extension}"
+                    
+                    try:
+                        if os.path.exists(old_filename):
+                            os.rename(old_filename, new_filename)
+                    except Exception as e:
+                        print(f"Error renaming YouTube file: {e}")
+            
+            # Pastikan nama file bersih dari karakter khusus
+            title = clean_filename(title)
             
             extension = 'mp4'
-            if platform == 'youtube' and format_type == 'mp3':
+            if format_type == 'mp3':
                 extension = 'mp3'
+                # Untuk TikTok dan Instagram, rename file hasil konversi MP3
+                if platform in ['tiktok', 'instagram']:
+                    mp3_old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp3"
+                    mp3_new_filename = f"{DOWNLOAD_FOLDER}/{title}.mp3"
+                    try:
+                        if os.path.exists(mp3_old_filename) and mp3_old_filename != mp3_new_filename:
+                            os.rename(mp3_old_filename, mp3_new_filename)
+                    except Exception as e:
+                        print(f"Error renaming MP3 file: {e}")
             
             result = {
                 'status': 'success',
@@ -263,11 +347,7 @@ def download():
         if not url:
             return jsonify({'status': 'error', 'message': 'URL tidak ditemukan'}), 400
         
-        # MP3 hanya diizinkan untuk YouTube
-        if format_type == 'mp3' and platform != 'youtube':
-            format_type = 'mp4'  # fallback ke mp4 untuk platform non-YouTube
-        
-        # Cek apakah format valid
+        # Cek apakah format valid (Hapus batas MP3 hanya untuk YouTube)
         if format_type not in ['mp3', 'mp4']:
             format_type = 'mp4'  # default ke mp4 jika tidak valid
         
@@ -380,4 +460,4 @@ def get_converted_image(filename):
         return jsonify({'error': str(e)}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=8000) 
+    app.run(debug=True, host='127.0.0.1', port=8060) 
