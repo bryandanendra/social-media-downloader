@@ -291,15 +291,22 @@ def download_video(url, platform, format_type='mp4'):
 
 # Fungsi untuk Image Converter
 def convert_image(input_path, output_path, target_format):
-    """Mengkonversi gambar ke format yang ditentukan"""
+    """Mengkonversi gambar ke format yang ditentukan (HEIC/JPG/PNG ke JPG/PNG/PDF)"""
     try:
-        # Untuk HEIC ke format lain
+        # Untuk HEIC ke format lain (JPG/PNG/PDF)
         if input_path.lower().endswith('.heic'):
             img = Image.open(input_path)
             # Konversi mode warna jika perlu
             if img.mode != 'RGB' and target_format.lower() != 'png':
                 img = img.convert('RGB')
-            img.save(output_path, format=target_format)
+            
+            # Khusus untuk konversi ke PDF
+            if target_format.lower() == 'pdf':
+                if img.mode != 'RGB':
+                    img = img.convert('RGB')
+                img.save(output_path, format=target_format, resolution=100.0)
+            else:
+                img.save(output_path, format=target_format)
             return True
         # Untuk format lain
         elif input_path.lower().endswith(('.jpg', '.jpeg', '.png')):
@@ -315,6 +322,7 @@ def convert_image(input_path, output_path, target_format):
                 img.save(output_path, format=target_format)
             return True
         else:
+            print(f"Format file input tidak didukung: {input_path}")
             return False
     except Exception as e:
         print(f"Error converting image: {e}")

@@ -91,9 +91,15 @@ cp -R "dist/YT Downloader" "/Applications/YT Downloader"
 Aplikasi ini juga memiliki fitur untuk mengubah format gambar:
 1. Klik menu "Image Converter" di aplikasi
 2. Upload gambar (termasuk format HEIC dari iPhone)
-3. Pilih format output (JPG, PNG, dll)
+3. Pilih format output (JPG, PNG, atau PDF)
 4. Klik 'Convert' untuk mengubah format gambar
 5. Download hasil konversi
+
+### Format yang Didukung:
+- **Input**: HEIC (iPhone), JPG, JPEG, PNG
+- **Output**: JPG, PNG, PDF
+
+Fitur konversi ini sangat berguna untuk pengguna iPhone yang ingin mengonversi foto HEIC menjadi format yang lebih umum digunakan seperti JPG, PNG, atau PDF.
 
 ## Struktur Folder
 
