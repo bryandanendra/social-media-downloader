@@ -1,192 +1,192 @@
-# Video Downloader - Panduan Instalasi Windows
+# Video Downloader - Windows Installation Guide
 
-Panduan lengkap cara menginstall dan menggunakan aplikasi Video Downloader di Windows. Ikuti langkah-langkah dengan urutan yang benar!
+Complete guide on how to install and use the Video Downloader application on Windows. Follow the steps in the correct order!
 
-## Cara Penggunaan Singkat
+## Quick Usage Guide
 
-1. Buka aplikasi dengan double-click pada file EXE atau shortcut di desktop
-2. Paste URL video dari YouTube/Instagram/TikTok
-3. Klik tombol download
-4. Tunggu hingga proses selesai
-5. File akan tersimpan di folder "downloads"
+1. Open the application by double-clicking on the EXE file or desktop shortcut
+2. Paste the video URL from YouTube/Instagram/TikTok
+3. Click the download button
+4. Wait until the process completes
+5. The file will be saved in the "downloads" folder
 
-## Apa Yang Diperlukan
+## Requirements
 
-- [Python 3.x](https://www.python.org/downloads/) (Pastikan versi 3.8 atau lebih baru)
+- [Python 3.x](https://www.python.org/downloads/) (Make sure it's version 3.8 or newer)
 - [XAMPP](https://www.apachefriends.org/download.html) (Webserver)
-- [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/latest) (Diperlukan untuk konversi video)
-- Git (opsional, hanya jika ingin menggunakan clone)
+- [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/latest) (Required for video conversion)
+- Git (optional, only if you want to use clone)
 
-## Langkah Instalasi (Untuk Pemula)
+## Installation Steps (For Beginners)
 
 ### 1. Install Python
 
-1. Download Python dari [python.org](https://www.python.org/downloads/)
-2. **PENTING!** Saat instalasi, centang kotak "Add Python to PATH"
+1. Download Python from [python.org](https://www.python.org/downloads/)
+2. **IMPORTANT!** During installation, check the "Add Python to PATH" box
    ![Add Python to PATH](https://python-docs.readthedocs.io/en/latest/_images/win_installer.png)
-3. Klik "Install Now"
-4. Tunggu hingga proses instalasi selesai
+3. Click "Install Now"
+4. Wait until the installation process completes
 
 ### 2. Install XAMPP
 
-1. Download XAMPP dari [apachefriends.org](https://www.apachefriends.org/download.html)
-2. Jalankan installer dan ikuti petunjuk yang muncul
-3. Install di lokasi default (`C:\xampp`)
+1. Download XAMPP from [apachefriends.org](https://www.apachefriends.org/download.html)
+2. Run the installer and follow the instructions
+3. Install in the default location (`C:\xampp`)
 
-### 3. Install FFmpeg (Penting!)
+### 3. Install FFmpeg (Important!)
 
-1. Download FFmpeg dari [GitHub releases](https://github.com/BtbN/FFmpeg-Builds/releases/latest)
-   - Pilih file `ffmpeg-master-latest-win64-gpl.zip`
-2. Ekstrak file ZIP ke lokasi permanen, misalnya `C:\FFmpeg`
-3. Tambahkan FFmpeg ke PATH Windows:
-   - Tekan `Win + X` dan pilih "Sistem"
-   - Klik "Pengaturan sistem lanjutan"
-   - Klik "Variabel Lingkungan"
-   - Di bagian "Variabel Sistem", cari "Path", pilih dan klik "Edit"
-   - Klik "Baru" dan tambahkan path ke folder bin FFmpeg (contoh: `C:\FFmpeg\bin`)
-   - Klik "OK" di semua jendela dialog
-4. Restart Command Prompt/PowerShell jika sudah terbuka
+1. Download FFmpeg from [GitHub releases](https://github.com/BtbN/FFmpeg-Builds/releases/latest)
+   - Choose the `ffmpeg-master-latest-win64-gpl.zip` file
+2. Extract the ZIP file to a permanent location, such as `C:\FFmpeg`
+3. Add FFmpeg to the Windows PATH:
+   - Press `Win + X` and select "System"
+   - Click "Advanced system settings"
+   - Click "Environment Variables"
+   - In the "System Variables" section, find "Path", select it and click "Edit"
+   - Click "New" and add the path to the FFmpeg bin folder (example: `C:\FFmpeg\bin`)
+   - Click "OK" on all dialog windows
+4. Restart Command Prompt/PowerShell if already open
 
-> **Catatan Penting**: Tanpa FFmpeg, aplikasi tidak dapat mengunduh video YouTube dalam format MP3 atau menggabungkan format video/audio.
+> **Important Note**: Without FFmpeg, the application cannot download YouTube videos in MP3 format or merge video/audio formats.
 
-### 4. Download Aplikasi
+### 4. Download the Application
 
-**Cara 1: Menggunakan Git** (untuk yang sudah familiar)
-1. Buka Command Prompt atau PowerShell
-2. Ketik perintah berikut:
+**Method 1: Using Git** (for those already familiar)
+1. Open Command Prompt or PowerShell
+2. Type the following command:
    ```
    cd C:\xampp\htdocs
    git clone https://github.com/bryandanendra/social-media-downloader.git
    ```
 
-**Cara 2: Download ZIP** (lebih mudah untuk pemula)
-1. Kunjungi [https://github.com/bryandanendra/social-media-downloader](https://github.com/bryandanendra/social-media-downloader)
-2. Klik tombol hijau "Code"
-3. Pilih "Download ZIP"
-4. Extract file ZIP ke folder `C:\xampp\htdocs\social-media-downloader`
+**Method 2: Download ZIP** (easier for beginners)
+1. Visit [https://github.com/bryandanendra/social-media-downloader](https://github.com/bryandanendra/social-media-downloader)
+2. Click the green "Code" button
+3. Select "Download ZIP"
+4. Extract the ZIP file to the `C:\xampp\htdocs\social-media-downloader` folder
 
-### 5. Siapkan Aplikasi
+### 5. Set Up the Application
 
-1. Buka Command Prompt sebagai Administrator
-   - Tekan tombol Windows
-   - Ketik "cmd"
-   - Klik kanan pada "Command Prompt" dan pilih "Run as administrator"
+1. Open Command Prompt as Administrator
+   - Press the Windows key
+   - Type "cmd"
+   - Right-click on "Command Prompt" and select "Run as administrator"
 
-2. Masuk ke folder aplikasi:
+2. Navigate to the application folder:
    ```
    cd C:\xampp\htdocs\social-media-downloader
    ```
 
-3. Buat dan aktifkan lingkungan virtual Python:
+3. Create and activate a Python virtual environment:
    ```
    python -m venv venv
    venv\Scripts\activate
    ```
-   > Jika perintah python tidak dikenali, coba gunakan `py` sebagai gantinya
+   > If the python command is not recognized, try using `py` instead
 
-4. Install semua yang diperlukan:
+4. Install all requirements:
    ```
    pip install -r requirements.txt
    ```
-   > Proses ini mungkin memerlukan waktu beberapa menit, harap bersabar
+   > This process might take a few minutes, please be patient
 
-## Menjalankan Aplikasi
+## Running the Application
 
-### Cara Mudah (Mode Development)
+### Easy Method (Development Mode)
 
-1. Pastikan berada di folder aplikasi dan virtual environment aktif:
+1. Make sure you are in the application folder and the virtual environment is active:
    ```
    cd C:\xampp\htdocs\social-media-downloader
    venv\Scripts\activate
    ```
 
-2. Jalankan aplikasi:
+2. Run the application:
    ```
    python app.py
    ```
 
-3. Buka browser dan akses:
+3. Open a browser and access:
    ```
    http://127.0.0.1:8000
    ```
 
-### Buat Aplikasi Desktop
+### Create a Desktop Application
 
-Jika ingin membuat aplikasi yang bisa dibuka langsung tanpa Command Prompt:
+If you want to create an application that can be opened directly without Command Prompt:
 
-1. Pastikan virtual environment aktif:
+1. Make sure the virtual environment is active:
    ```
    cd C:\xampp\htdocs\social-media-downloader
    venv\Scripts\activate
    ```
 
-2. Install PyInstaller jika belum:
+2. Install PyInstaller if not already installed:
    ```
    pip install pyinstaller
    ```
 
-3. Build aplikasi:
+3. Build the application:
    ```
    pyinstaller app.spec
    ```
-   > Proses ini mungkin memerlukan waktu 5-10 menit
+   > This process might take 5-10 minutes
 
-4. Copy hasil build:
+4. Copy the build result:
    ```
    xcopy /E /I /Y "dist\YT Downloader" "C:\Program Files\YT Downloader"
    ```
 
-5. Buat shortcut di Desktop:
-   - Buka File Explorer
-   - Buka folder `C:\Program Files\YT Downloader`
-   - Klik kanan pada file `YT Downloader.exe`
-   - Pilih "Create shortcut"
-   - Drag shortcut ke Desktop
+5. Create a desktop shortcut:
+   - Open File Explorer
+   - Open the `C:\Program Files\YT Downloader` folder
+   - Right-click on the `YT Downloader.exe` file
+   - Select "Create shortcut"
+   - Drag the shortcut to the Desktop
 
-## Fitur Aplikasi
+## Application Features
 
-- ✨ Tampilan modern dan mudah digunakan
-- 🎥 Download video dari:
-  - YouTube (format MP4 dan MP3)
-  - Instagram (Reels dan Post)
-  - TikTok (Video)
-- 🔍 Pendeteksian otomatis jenis platform
-- 📁 Akses cepat ke folder hasil download
-- 🖼️ Konverter gambar dari HEIC ke JPG/PNG
+- ✨ Modern and easy-to-use interface
+- 🎥 Download videos from:
+  - YouTube (MP4 and MP3 formats)
+  - Instagram (Reels and Posts)
+  - TikTok (Videos)
+- 🔍 Automatic platform detection
+- 📁 Quick access to the download folder
+- 🖼️ Image converter from HEIC to JPG/PNG
 
-## Mengatasi Masalah Umum
+## Troubleshooting Common Issues
 
-### "Python not found" atau "Python tidak dikenali"
-- Pastikan Python sudah di-install
-- Pastikan sudah centang "Add Python to PATH" saat instalasi
-- Restart komputer setelah menginstall Python
-- Coba gunakan perintah `py` sebagai pengganti `python`
+### "Python not found" or "Python is not recognized"
+- Make sure Python is installed
+- Make sure you checked "Add Python to PATH" during installation
+- Restart your computer after installing Python
+- Try using the `py` command instead of `python`
 
-### Error saat instalasi package
-- Pastikan Command Prompt dijalankan sebagai Administrator
-- Pastikan koneksi internet stabil
-- Update pip terlebih dahulu: `pip install --upgrade pip`
-- Jika ada error pada paket tertentu, coba install satu per satu
+### Error when installing packages
+- Make sure Command Prompt is run as Administrator
+- Make sure your internet connection is stable
+- Update pip first: `pip install --upgrade pip`
+- If there's an error with a specific package, try installing them one by one
 
-### Aplikasi tidak bisa dibuka atau crash
-- Pastikan antivirus tidak memblokir aplikasi
-- Jalankan aplikasi sebagai Administrator
-- Periksa Windows Event Viewer untuk detail error
+### Application won't open or crashes
+- Make sure antivirus is not blocking the application
+- Run the application as Administrator
+- Check Windows Event Viewer for error details
 
-### Tidak bisa akses folder downloads
-- Jalankan aplikasi sebagai Administrator
-- Periksa permission folder
+### Can't access the downloads folder
+- Run the application as Administrator
+- Check folder permissions
 
-### Error "ffmpeg is not installed" atau "You have requested merging of multiple formats but ffmpeg is not installed"
-- Pastikan FFmpeg sudah diinstall dengan benar (lihat bagian "Install FFmpeg" di atas)
-- Verifikasi FFmpeg sudah terdaftar di PATH dengan menjalankan `ffmpeg -version` di Command Prompt
-- Jika masih bermasalah, coba instal ulang FFmpeg di lokasi berbeda (misal: `C:\Program Files\FFmpeg`)
-- Pastikan folder bin FFmpeg (yang berisi ffmpeg.exe) ditambahkan ke sistem PATH
-- Restart komputer setelah menambahkan FFmpeg ke PATH
+### Error "ffmpeg is not installed" or "You have requested merging of multiple formats but ffmpeg is not installed"
+- Make sure FFmpeg is properly installed (see the "Install FFmpeg" section above)
+- Verify FFmpeg is registered in PATH by running `ffmpeg -version` in Command Prompt
+- If still problematic, try reinstalling FFmpeg in a different location (e.g., `C:\Program Files\FFmpeg`)
+- Make sure the FFmpeg bin folder (containing ffmpeg.exe) is added to the system PATH
+- Restart your computer after adding FFmpeg to PATH
 
-## Bantuan & Dukungan
+## Help & Support
 
-Jika mengalami masalah, silakan:
-1. Buka issue di repository: https://github.com/bryandanendra/social-media-downloader/issues
-2. Kontak @bryandanendra
-3. Jalankan aplikasi melalui Command Prompt untuk melihat detail error 
+If you experience issues, please:
+1. Open an issue in the repository: https://github.com/bryandanendra/social-media-downloader/issues
+2. Contact @bryandanendra
+3. Run the application through Command Prompt to see detailed errors 

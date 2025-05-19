@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -383,7 +383,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <p>Drag and drop gambar di sini atau klik untuk memilih</p>
+                <p>Drag and drop image here or click to select</p>
                 <p class="text-muted">Format: PNG, JPG, JPEG, HEIC</p>
                 <input type="file" id="fileInput" style="display:none" accept=".png,.jpg,.jpeg,.heic">
             </div>
@@ -392,7 +392,7 @@
 
             <form id="converterForm">
                 <div class="form-group">
-                    <label class="form-label mb-2">Format Output:</label>
+                    <label class="form-label mb-2">Output Format:</label>
                     <div class="platform-options">
                         <div class="platform-item active" data-format="jpeg">
                             <div class="platform-info">
@@ -424,7 +424,7 @@
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <p class="mt-3">Sedang mengkonversi...</p>
+                <p class="mt-3">Converting...</p>
             </div>
 
             <div class="result-section">
@@ -432,7 +432,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#34C759" class="mb-3" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                     </svg>
-                    <h5 class="mb-3" id="successMessage">Konversi Berhasil!</h5>
+                    <h5 class="mb-3" id="successMessage">Conversion Successful!</h5>
                     <a id="downloadLink" class="btn btn-success mx-auto d-block" href="#" download>
                         <i class="fas fa-download me-2"></i>Download File
                     </a>
@@ -505,19 +505,19 @@
                 // Validate file type
                 const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic'];
                 if (!validTypes.includes(file.type)) {
-                    alert('Format file tidak didukung. Silakan upload file JPG, JPEG, PNG, atau HEIC.');
+                    alert('File format not supported. Please upload JPG, JPEG, PNG, or HEIC files.');
                     return;
                 }
                 
                 // Store selected file
                 selectedFile = file;
                 
-                // Show preview - tambahkan penanganan khusus untuk HEIC
+                // Show preview - add special handling for HEIC
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    // Jika HEIC, munculkan placeholder karena browser tidak mendukung preview HEIC
+                    // If HEIC, show placeholder as browsers can't preview HEIC
                     if (file.type === 'image/heic') {
-                        // Tampilkan informasi file tanpa preview
+                        // Display file info without preview
                         previewImage.style.display = 'none';
                         dropArea.innerHTML = `
                             <div class="text-center">
@@ -525,13 +525,13 @@
                                     <path d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4z"/>
                                     <path d="M8 4.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V9a.5.5 0 0 1-1 0V7.5H6a.5.5 0 0 1 0-1h1.5V5a.5.5 0 0 1 .5-.5z"/>
                                 </svg>
-                                <p class="text-primary">File HEIC siap dikonversi</p>
-                                <p class="text-muted">Nama file: ${file.name}</p>
-                                <p class="text-muted">Ukuran: ${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+                                <p class="text-primary">HEIC file ready for conversion</p>
+                                <p class="text-muted">Filename: ${file.name}</p>
+                                <p class="text-muted">Size: ${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
                             </div>
                         `;
                     } else {
-                        // Format lain tampilkan preview seperti biasa
+                        // For other formats, display normal preview
                         previewImage.src = e.target.result;
                         previewImage.style.display = 'block';
                         dropArea.style.display = 'none';
@@ -545,7 +545,7 @@
                 e.preventDefault();
                 
                 if (!selectedFile) {
-                    alert('Pilih gambar terlebih dahulu');
+                    alert('Please select an image first');
                     return;
                 }
                 
@@ -571,14 +571,14 @@
                         // Update success message
                         resultSection.style.display = 'block';
                         downloadLink.href = data.download_url;
-                        successMessage.textContent = 'Konversi berhasil!';
+                        successMessage.textContent = 'Conversion Successful!';
                     } else {
                         alert('Error: ' + data.message);
                     }
                 })
                 .catch(error => {
                     loadingSpinner.style.display = 'none';
-                    alert('Terjadi kesalahan saat mengkonversi gambar');
+                    alert('An error occurred while converting the image');
                     console.error('Error:', error);
                 });
             });

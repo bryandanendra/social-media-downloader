@@ -1,140 +1,140 @@
 # Video Downloader
 
-Aplikasi web sederhana untuk mengunduh video dari YouTube, Instagram, dan TikTok. Dibuat dengan Python Flask dan antarmuka web modern menggunakan Tailwind CSS.
+A simple web application to download videos from YouTube, Instagram, and TikTok. Built with Python Flask and a modern web interface using Tailwind CSS.
 
-## Fitur
+## Features
 
-- ✨ Antarmuka pengguna yang modern dan responsif
-- 🎥 Mendukung unduhan dari:
-  - YouTube (format MP4 dan MP3)
-  - Instagram (Reels dan Post)
-  - TikTok (Video)
-- 🔍 Deteksi otomatis platform dari URL yang ditempel
-- 📁 Tombol cepat untuk membuka folder unduhan
-- 🎯 Pembersihan judul file otomatis
-- 🔒 Berjalan secara lokal untuk keamanan (tidak perlu internet untuk menjalankan aplikasi)
-- 🖼️ Konverter gambar terintegrasi (termasuk dukungan HEIC untuk iPhone)
+- ✨ Modern and responsive user interface
+- 🎥 Supports downloads from:
+  - YouTube (MP4 and MP3 formats)
+  - Instagram (Reels and Posts)
+  - TikTok (Videos)
+- 🔍 Automatic platform detection from pasted URLs
+- 📁 Quick button to open download folder
+- 🎯 Automatic file title cleaning
+- 🔒 Runs locally for security (no internet needed to run the application)
+- 🖼️ Integrated image converter (including HEIC support for iPhone)
 
-## Tampilan UI
+## UI Preview
 
-![Tampilan UI Aplikasi](UI.png)
+![App UI Preview](UI.png)
 
-## Cara Penggunaan Singkat
+## Quick Usage Guide
 
-1. Buka aplikasi di browser (http://127.0.0.1:8000)
-2. Paste URL video yang ingin diunduh
-3. Platform akan terdeteksi otomatis
-4. Klik tombol unduh
-5. Tunggu proses unduhan selesai
-6. File akan tersimpan di folder "downloads"
+1. Open the application in your browser (http://127.0.0.1:8000)
+2. Paste the video URL you want to download
+3. The platform will be detected automatically
+4. Click the download button
+5. Wait for the download process to complete
+6. The file will be saved in the "downloads" folder
 
-## Persyaratan Sistem
+## System Requirements
 
-Untuk pengguna **macOS & Linux**:
+For **macOS & Linux** users:
 - Python 3.x
-- XAMPP atau server web lainnya
+- XAMPP or other web server
 
-**Catatan**: Untuk pengguna Windows, silakan lihat [README_WINDOWS.md](README_WINDOWS.md)
+**Note**: For Windows users, please see [README_WINDOWS.md](README_WINDOWS.md)
 
-## Cara Instalasi (macOS & Linux)
+## Installation (macOS & Linux)
 
-1. Download atau clone repositori ini:
+1. Download or clone this repository:
 ```bash
 git clone https://github.com/bryandanendra/social-media-downloader.git
 ```
 
-2. Buat virtual environment dan aktifkan:
+2. Create and activate a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # Untuk Unix/macOS
+source venv/bin/activate  # For Unix/macOS
 ```
 
-3. Install semua yang diperlukan:
+3. Install all requirements:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Jalankan aplikasi:
+4. Run the application:
 ```bash
 python app.py
 ```
 
-5. Buka browser dan akses alamat berikut:
+5. Open your browser and access the following address:
 ```
 http://127.0.0.1:8000
 ```
 
-## Membuat Aplikasi Desktop (Opsional)
+## Creating a Desktop Application (Optional)
 
-Jika ingin membuat aplikasi yang bisa dibuka langsung tanpa terminal, ikuti langkah berikut:
+If you want to create an application that can be opened directly without a terminal, follow these steps:
 
-1. Pastikan berada di direktori project dan virtual environment aktif:
+1. Make sure you are in the project directory and the virtual environment is active:
 ```bash
 cd /Applications/XAMPP/xamppfiles/htdocs/social-media-downloader
 source venv/bin/activate
 ```
 
-2. Build aplikasi dengan PyInstaller:
+2. Build the application with PyInstaller:
 ```bash
 pyinstaller app.spec
 ```
 
-3. Pindahkan hasil build ke Applications:
+3. Move the build to Applications:
 ```bash
 cp -R "dist/YT Downloader" "/Applications/YT Downloader"
 ```
 
-4. Jalankan aplikasi dari folder Applications
+4. Run the application from the Applications folder
 
-## Menggunakan Konverter Gambar
+## Using the Image Converter
 
-Aplikasi ini juga memiliki fitur untuk mengubah format gambar:
-1. Klik menu "Image Converter" di aplikasi
-2. Upload gambar (termasuk format HEIC dari iPhone)
-3. Pilih format output (JPG, PNG, atau PDF)
-4. Klik 'Convert' untuk mengubah format gambar
-5. Download hasil konversi
+This application also has a feature to convert image formats:
+1. Click the "Image Converter" menu in the application
+2. Upload an image (including HEIC format from iPhone)
+3. Select the output format (JPG, PNG, or PDF)
+4. Click 'Convert' to change the image format
+5. Download the conversion result
 
-### Format yang Didukung:
+### Supported Formats:
 - **Input**: HEIC (iPhone), JPG, JPEG, PNG
 - **Output**: JPG, PNG, PDF
 
-Fitur konversi ini sangat berguna untuk pengguna iPhone yang ingin mengonversi foto HEIC menjadi format yang lebih umum digunakan seperti JPG, PNG, atau PDF.
+This conversion feature is especially useful for iPhone users who want to convert HEIC photos to more commonly used formats like JPG, PNG, or PDF.
 
-## Struktur Folder
+## Folder Structure
 
 ```
 social-media-downloader/
-├── cache/            # Cache untuk URL yang sering diakses
-├── downloads/        # Folder penyimpanan hasil unduhan
-├── uploads/          # Folder untuk file upload (konverter gambar)
-├── converted/        # Folder untuk hasil konversi gambar
-├── templates/        # Template HTML
-├── venv/             # Virtual environment Python
-├── app.py            # Aplikasi server Flask
-├── run_app.py        # Script untuk menjalankan aplikasi desktop
-├── requirements.txt  # Daftar dependensi
-└── app.spec          # Konfigurasi PyInstaller
+├── cache/            # Cache for frequently accessed URLs
+├── downloads/        # Folder for downloaded files
+├── uploads/          # Folder for uploaded files (image converter)
+├── converted/        # Folder for converted images
+├── templates/        # HTML templates
+├── venv/             # Python virtual environment
+├── app.py            # Flask server application
+├── run_app.py        # Script to run the desktop application
+├── requirements.txt  # Dependency list
+└── app.spec          # PyInstaller configuration
 ```
 
-## Catatan Penting
+## Important Notes
 
-- Aplikasi ini berjalan secara lokal (localhost) untuk keamanan
-- Pastikan port 8000 tidak digunakan oleh aplikasi lain
-- Gunakan virtual environment untuk mengisolasi dependensi
-- Folder downloads, uploads, dan converted akan dibuat otomatis
+- This application runs locally (localhost) for security
+- Make sure port 8000 is not used by another application
+- Use a virtual environment to isolate dependencies
+- The downloads, uploads, and converted folders will be created automatically
 
-## Bantuan & Dukungan
+## Help & Support
 
-Jika mengalami masalah, silakan:
-1. Buka issue di repository: https://github.com/bryandanendra/social-media-downloader/issues
-2. Kontak @bryandanendra
-3. Jalankan aplikasi melalui terminal untuk melihat pesan error
+If you experience issues, please:
+1. Open an issue in the repository: https://github.com/bryandanendra/social-media-downloader/issues
+2. Contact @bryandanendra
+3. Run the application through the terminal to see error messages
 
-## Lisensi
+## License
 
-Proyek ini dilisensikan di bawah Lisensi MIT - lihat file LICENSE untuk detail.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Kredit
+## Credits
 
-Dibuat oleh @bryandanendra 
+Created by @bryandanendra 

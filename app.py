@@ -10,104 +10,104 @@ from pathlib import Path
 import hashlib
 import json
 
-# Register HEIF opener untuk support HEIC
+# Register HEIF opener to support HEIC
 register_heif_opener()
 
 app = Flask(__name__)
 app.template_folder = 'templates'
 
-# Definisikan folder penyimpanan
+# Define storage folders
 UPLOAD_FOLDER = 'uploads'
 CONVERTED_FOLDER = 'converted'
 DOWNLOAD_FOLDER = 'downloads'
 CACHE_FOLDER = 'cache'
 
-# Pastikan folder ada
+# Make sure folders exist
 for folder in [UPLOAD_FOLDER, CONVERTED_FOLDER, DOWNLOAD_FOLDER, CACHE_FOLDER]:
     os.makedirs(folder, exist_ok=True)
 
-# Cache untuk URL yang sering diakses
+# Cache for frequently accessed URLs
 url_cache = {}
 
-# Fungsi untuk Video Downloader
+# Functions for Video Downloader
 def clean_tiktok_title(title):
-    # Jika ada hashtag (#), ambil teks sebelum hashtag pertama
+    # If hashtags (#) exist, take text before the first hashtag
     if '#' in title:
         title = title.split('#')[0].strip()
     
-    # Hapus karakter yang tidak aman untuk nama file
+    # Remove unsafe characters for filenames
     title = re.sub(r'[^\w\s-]', '', title)
-    # Ganti spasi dengan underscore
+    # Replace spaces with underscores
     title = re.sub(r'\s+', '_', title.strip())
     
     return title
 
 def clean_instagram_title(info):
-    # Coba ambil caption dari info
+    # Try to get caption from info
     try:
-        # Ambil caption atau description
+        # Get caption or description
         caption = info.get('description', '') or info.get('title', '')
-        # Bersihkan dari karakter yang tidak diinginkan dan batasi 20 karakter
-        # Hapus hashtag dan mention
+        # Clean unwanted characters and limit to 20 characters
+        # Remove hashtags and mentions
         caption = re.sub(r'#\w+|@\w+', '', caption)
-        # Hapus karakter yang tidak diinginkan, ganti dengan underscore
+        # Remove unwanted characters, replace with underscore
         caption = re.sub(r'[^\w\s-]', '', caption)
-        # Ganti spasi dengan underscore
+        # Replace spaces with underscore
         caption = re.sub(r'\s+', '_', caption.strip())
-        # Batasi 20 karakter
+        # Limit to 20 characters
         caption = caption[:20]
-        # Jika caption kosong, gunakan timestamp
+        # If caption is empty, use timestamp
         if not caption:
             caption = f"ig_video_{int(time.time())}"
         return caption
     except:
-        # Fallback ke timestamp jika terjadi error
+        # Fallback to timestamp if error occurs
         return f"ig_video_{int(time.time())}"
 
 def clean_filename(filename):
-    """Membersihkan nama file dari karakter yang tidak diizinkan"""
-    # Hapus karakter yang tidak aman untuk nama file
+    """Clean filename from disallowed characters"""
+    # Remove unsafe characters for filenames
     filename = re.sub(r'[^\w\s.-]', '', filename)
-    # Ganti spasi dengan underscore
+    # Replace spaces with underscore
     filename = re.sub(r'\s+', '_', filename.strip())
-    # Pastikan nama file tidak kosong
+    # Make sure filename is not empty
     if not filename:
         filename = f"file_{int(time.time())}"
     return filename
 
 def get_cache_key(url, platform, format_type):
-    """Membuat cache key unik berdasarkan URL, platform, dan format"""
+    """Create unique cache key based on URL, platform, and format"""
     cache_string = f"{url}_{platform}_{format_type}"
     return hashlib.md5(cache_string.encode()).hexdigest()
 
 def check_cache(cache_key):
-    """Cek apakah file sudah ada di cache"""
+    """Check if file already exists in cache"""
     cache_file = os.path.join(CACHE_FOLDER, f"{cache_key}.json")
     if os.path.exists(cache_file):
         with open(cache_file, 'r') as f:
             cache_data = json.load(f)
-            # Pastikan file masih ada
+            # Make sure file still exists
             if os.path.exists(cache_data['filename']):
                 return cache_data
     return None
 
 def save_to_cache(cache_key, data):
-    """Simpan hasil download ke cache"""
+    """Save download result to cache"""
     cache_file = os.path.join(CACHE_FOLDER, f"{cache_key}.json")
     with open(cache_file, 'w') as f:
         json.dump(data, f)
 
 def download_video(url, platform, format_type='mp4'):
-    # Cek cache dulu
+    # Check cache first
     cache_key = get_cache_key(url, platform, format_type)
     cached_data = check_cache(cache_key)
     if cached_data:
         return cached_data
     
-    # Konfigurasikan ydl_opts berdasarkan platform
+    # Configure ydl_opts based on platform
     if platform == 'instagram':
         ydl_opts = {
-            'format': 'best',  # Ubah dari 'best[height<=720]' ke 'best' untuk mendapatkan format apapun yang tersedia
+            'format': 'best',  # Changed from 'best[height<=720]' to 'best' to get any available format
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'noplaylist': True,
@@ -120,7 +120,7 @@ def download_video(url, platform, format_type='mp4'):
             ],
         }
         
-        # Jika format MP3 dipilih
+        # If MP3 format is selected
         if format_type == 'mp3':
             ydl_opts = {
                 'format': 'bestaudio/best',
@@ -136,7 +136,7 @@ def download_video(url, platform, format_type='mp4'):
             }
     elif platform == 'tiktok':
         ydl_opts = {
-            'format': 'best',  # Ubah dari 'best[height<=720]' ke 'best' untuk mendapatkan format apapun yang tersedia
+            'format': 'best',  # Changed from 'best[height<=720]' to 'best' to get any available format
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'extract_flat': False,
@@ -151,7 +151,7 @@ def download_video(url, platform, format_type='mp4'):
             ],
         }
         
-        # Jika format MP3 dipilih
+        # If MP3 format is selected
         if format_type == 'mp3':
             ydl_opts = {
                 'format': 'bestaudio/best',
@@ -181,7 +181,7 @@ def download_video(url, platform, format_type='mp4'):
             }
         else: # mp4
             ydl_opts = {
-                # Batasi kualitas maksimum 720p untuk lebih cepat
+                # Limit maximum quality to 720p for faster download
                 'format': 'bestvideo[height<=720]+bestaudio/best[height<=720]',
                 'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
                 'merge_output_format': 'mp4',
@@ -210,12 +210,12 @@ def download_video(url, platform, format_type='mp4'):
                 except Exception as e:
                     print(f"Error renaming TikTok file: {e}")
             elif platform == 'instagram':
-                # Gunakan caption atau timestamp untuk nama file
+                # Use caption or timestamp for filename
                 new_title = clean_instagram_title(info)
                 old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp4"
                 new_filename = f"{DOWNLOAD_FOLDER}/{new_title}.mp4"
                 
-                # Jika file dengan nama yang sama sudah ada, tambahkan timestamp
+                # If file with the same name already exists, add timestamp
                 if os.path.exists(new_filename):
                     import time
                     new_title = f"{new_title}_{int(time.time())}"
@@ -228,11 +228,11 @@ def download_video(url, platform, format_type='mp4'):
                     print(f"Error renaming Instagram file: {e}")
                 title = new_title
             elif platform == 'youtube':
-                # Bersihkan judul YouTube juga
+                # Clean YouTube title too
                 original_title = title
                 title = clean_filename(title)
                 
-                # Jika judul berubah, rename file
+                # If title changed, rename file
                 if original_title != title:
                     extension = "mp4"
                     if format_type == "mp3":
@@ -247,13 +247,13 @@ def download_video(url, platform, format_type='mp4'):
                     except Exception as e:
                         print(f"Error renaming YouTube file: {e}")
             
-            # Pastikan nama file bersih dari karakter khusus
+            # Make sure filename is clean from special characters
             title = clean_filename(title)
             
             extension = 'mp4'
             if format_type == 'mp3':
                 extension = 'mp3'
-                # Untuk TikTok dan Instagram, rename file hasil konversi MP3
+                # For TikTok and Instagram, rename MP3 conversion result
                 if platform in ['tiktok', 'instagram']:
                     mp3_old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp3"
                     mp3_new_filename = f"{DOWNLOAD_FOLDER}/{title}.mp3"
@@ -269,38 +269,38 @@ def download_video(url, platform, format_type='mp4'):
                 'filename': f"{DOWNLOAD_FOLDER}/{title}.{extension}"
             }
             
-            # Simpan ke cache
+            # Save to cache
             save_to_cache(cache_key, result)
             
             return result
     except Exception as e:
         error_message = str(e)
         
-        # Berikan pesan error yang lebih jelas dan saran solusi
+        # Provide clearer error messages and solution suggestions
         if "format is not available" in error_message:
-            error_message = f"Format video tidak tersedia. Coba unduh dari situs asli."
+            error_message = f"Video format not available. Please download from the original site."
         elif "Unsupported URL" in error_message or "This URL is not supported" in error_message:
-            error_message = f"URL tidak didukung. Pastikan URL valid untuk platform {platform}."
+            error_message = f"URL not supported. Please make sure the URL is valid for platform {platform}."
         elif "Sign in to confirm" in error_message or "Please log in or sign up" in error_message:
-            error_message = f"Video ini memerlukan login. Coba unduh dari situs asli."
+            error_message = f"This video requires login. Please download from the original site."
             
         return {
             'status': 'error',
             'message': error_message
         }
 
-# Fungsi untuk Image Converter
+# Functions for Image Converter
 def convert_image(input_path, output_path, target_format):
-    """Mengkonversi gambar ke format yang ditentukan (HEIC/JPG/PNG ke JPG/PNG/PDF)"""
+    """Converting images to specified format (HEIC/JPG/PNG to JPG/PNG/PDF)"""
     try:
-        # Untuk HEIC ke format lain (JPG/PNG/PDF)
+        # For HEIC to other formats (JPG/PNG/PDF)
         if input_path.lower().endswith('.heic'):
             img = Image.open(input_path)
-            # Konversi mode warna jika perlu
+            # Convert color mode if needed
             if img.mode != 'RGB' and target_format.lower() != 'png':
                 img = img.convert('RGB')
             
-            # Khusus untuk konversi ke PDF
+            # Specific handling for PDF conversion
             if target_format.lower() == 'pdf':
                 if img.mode != 'RGB':
                     img = img.convert('RGB')
@@ -308,10 +308,10 @@ def convert_image(input_path, output_path, target_format):
             else:
                 img.save(output_path, format=target_format)
             return True
-        # Untuk format lain
+        # For other formats
         elif input_path.lower().endswith(('.jpg', '.jpeg', '.png')):
             img = Image.open(input_path)
-            # Konversi ke PDF
+            # Convert to PDF
             if target_format.lower() == 'pdf':
                 if img.mode != 'RGB':
                     img = img.convert('RGB')
@@ -322,7 +322,7 @@ def convert_image(input_path, output_path, target_format):
                 img.save(output_path, format=target_format)
             return True
         else:
-            print(f"Format file input tidak didukung: {input_path}")
+            print(f"Input file format not supported: {input_path}")
             return False
     except Exception as e:
         print(f"Error converting image: {e}")
@@ -341,7 +341,7 @@ def image_converter():
 @app.route('/download', methods=['POST'])
 def download():
     try:
-        # Cek apakah request JSON atau form data
+        # Check if request is JSON or form data
         if request.is_json:
             data = request.json
             url = data.get('url')
@@ -353,19 +353,19 @@ def download():
             format_type = request.form.get('format', 'mp4')
         
         if not url:
-            return jsonify({'status': 'error', 'message': 'URL tidak ditemukan'}), 400
+            return jsonify({'status': 'error', 'message': 'URL not found'}), 400
         
-        # Cek apakah format valid (Hapus batas MP3 hanya untuk YouTube)
+        # Check if format is valid (Remove MP3 restriction for YouTube)
         if format_type not in ['mp3', 'mp4']:
-            format_type = 'mp4'  # default ke mp4 jika tidak valid
+            format_type = 'mp4'  # default to mp4 if not valid
         
-        # Cek apakah platform valid
+        # Check if platform is valid
         if platform not in ['youtube', 'tiktok', 'instagram']:
-            platform = 'youtube'  # default ke youtube jika tidak valid
+            platform = 'youtube'  # default to youtube if not valid
         
         result = download_video(url, platform, format_type)
         
-        # Jika request dari form, render template dengan hasil
+        # If request is from form, render template with result
         if not request.is_json:
             if result['status'] == 'success':
                 return render_template('index.html', 
@@ -375,7 +375,7 @@ def download():
                 return render_template('index.html', 
                                       error=result['message'])
         
-        # Jika request JSON, return JSON
+        # If request is JSON, return JSON
         return jsonify(result)
     except Exception as e:
         if request.is_json:
@@ -386,7 +386,7 @@ def download():
 @app.route('/get-video/<path:filename>')
 def get_video(filename):
     try:
-        # Hapus 'downloads/' dari awal filename jika ada
+        # Remove 'downloads/' from filename if exists
         clean_filename = filename.replace(f'{DOWNLOAD_FOLDER}/', '')
         return send_file(
             f'{DOWNLOAD_FOLDER}/{clean_filename}',
@@ -409,19 +409,19 @@ def open_folder():
 @app.route('/convert-image', methods=['POST'])
 def convert_image_api():
     if 'file' not in request.files:
-        return jsonify({'status': 'error', 'message': 'File tidak ditemukan'})
+        return jsonify({'status': 'error', 'message': 'File not found'})
     
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'status': 'error', 'message': 'Tidak ada file yang dipilih'})
+        return jsonify({'status': 'error', 'message': 'No file selected'})
     
     target_format = request.form.get('format', 'jpeg').lower()
     
-    # Validasi format yang didukung
+    # Validate supported formats
     if target_format not in ['jpeg', 'png', 'pdf']:
-        return jsonify({'status': 'error', 'message': 'Format tidak didukung'})
+        return jsonify({'status': 'error', 'message': 'Format not supported'})
     
-    # Simpan file yang diupload
+    # Save uploaded file
     timestamp = int(time.time())
     original_filename = file.filename
     file_ext = Path(original_filename).suffix
@@ -430,7 +430,7 @@ def convert_image_api():
     upload_path = os.path.join(UPLOAD_FOLDER, f"{base_filename}_{timestamp}{file_ext}")
     file.save(upload_path)
     
-    # Tentukan path output
+    # Determine output path
     ext_map = {
         'jpeg': '.jpg',
         'png': '.png',
@@ -440,20 +440,20 @@ def convert_image_api():
     output_filename = f"{base_filename}_{timestamp}{ext_map[target_format]}"
     output_path = os.path.join(CONVERTED_FOLDER, output_filename)
     
-    # Lakukan konversi
+    # Perform conversion
     success = convert_image(upload_path, output_path, target_format)
     
     if success:
         return jsonify({
             'status': 'success',
-            'message': 'Konversi berhasil',
+            'message': 'Conversion successful',
             'filename': output_filename,
             'download_url': f'/get-converted-image/{output_filename}'
         })
     else:
         return jsonify({
             'status': 'error',
-            'message': 'Gagal mengkonversi gambar'
+            'message': 'Failed to convert image'
         })
 
 @app.route('/get-converted-image/<filename>')
