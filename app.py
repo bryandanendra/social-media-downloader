@@ -66,6 +66,10 @@ def clean_instagram_title(info):
 
 def clean_filename(filename):
     """Clean filename from disallowed characters"""
+    # Replace special characters that might cause issues
+    filename = filename.replace('"', '').replace(''', '').replace('"', '')
+    filename = filename.replace(''', '').replace('＂', '').replace('：', '-')
+    
     # Remove unsafe characters for filenames
     filename = re.sub(r'[^\w\s.-]', '', filename)
     # Replace spaces with underscore
@@ -370,7 +374,7 @@ def download():
             if result['status'] == 'success':
                 return render_template('index.html', 
                                       success=True, 
-                                      download_path=result['filename'].replace(DOWNLOAD_FOLDER+'/', ''))
+                                      download_path=result['title'])
             else:
                 return render_template('index.html', 
                                       error=result['message'])
@@ -388,11 +392,41 @@ def get_video(filename):
     try:
         # Remove 'downloads/' from filename if exists
         clean_filename = filename.replace(f'{DOWNLOAD_FOLDER}/', '')
-        return send_file(
-            f'{DOWNLOAD_FOLDER}/{clean_filename}',
-            as_attachment=True,
-            download_name=clean_filename
-        )
+        
+        # Check if file exists, if not try to add extensions
+        file_path = f'{DOWNLOAD_FOLDER}/{clean_filename}'
+        if not os.path.exists(file_path):
+            # Check if file with mp4 or mp3 extension exists
+            if os.path.exists(f'{file_path}.mp4'):
+                file_path = f'{file_path}.mp4'
+                clean_filename = f'{clean_filename}.mp4'
+            elif os.path.exists(f'{file_path}.mp3'):
+                file_path = f'{file_path}.mp3'
+                clean_filename = f'{clean_filename}.mp3'
+            else:
+                # Try to find a file with similar name in the downloads folder
+                try:
+                    for f in os.listdir(DOWNLOAD_FOLDER):
+                        # Skip directories
+                        if os.path.isdir(os.path.join(DOWNLOAD_FOLDER, f)):
+                            continue
+                            
+                        # Check if the file name contains our search string (case insensitive)
+                        if clean_filename.lower().replace('_', ' ') in f.lower():
+                            file_path = os.path.join(DOWNLOAD_FOLDER, f)
+                            clean_filename = f
+                            break
+                except Exception as e:
+                    print(f"Error finding similar file: {e}")
+        
+        if os.path.exists(file_path):
+            return send_file(
+                file_path,
+                as_attachment=True,
+                download_name=clean_filename
+            )
+        else:
+            return jsonify({'error': f'File not found: {clean_filename}'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 404
 
@@ -401,7 +435,8 @@ def open_folder():
     try:
         folder_path = os.path.abspath(DOWNLOAD_FOLDER)
         subprocess.run(['open', folder_path])
-        return jsonify({'status': 'success'})
+        # Return minimal JSON response
+        return jsonify({'status': 'success'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

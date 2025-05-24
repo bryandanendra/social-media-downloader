@@ -443,7 +443,10 @@
                     <div>
                         <strong>Success!</strong> File has been successfully downloaded.
                         <br>
-                        <a href="{{ download_path }}" class="btn btn-success mt-2 d-block mx-auto" style="width: fit-content;" download>Download</a>
+                        <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
+                            <a href="/get-video/{{ download_path }}" class="btn btn-success" style="width: fit-content;" download>Download</a>
+                            <button onclick="openFolder(event)" class="btn btn-primary" style="width: fit-content;">Open Folder</button>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
@@ -543,13 +546,20 @@
                     if (data.status === 'success') {
                         // Show success notification
                         const downloadPath = data.filename.replace('downloads/', '');
+                        // Use raw title if available, otherwise use clean title or filename
+                        const fileTitle = data.title || downloadPath;
+                        
+                        // Add a button to open the downloads folder
                         resultArea.innerHTML = `
                             <div class="alert alert-success mt-3">
                                 <i class="fas fa-check-circle"></i>
                                 <div>
                                     <strong>Success!</strong> File has been successfully downloaded.
                                     <br>
-                                    <a href="/get-video/${downloadPath}" class="btn btn-success mt-2 d-block mx-auto" style="width: fit-content;" download>Download</a>
+                                    <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
+                                        <a href="/get-video/${fileTitle}" class="btn btn-success" style="width: fit-content;" download>Download</a>
+                                        <button onclick="openFolder(event)" class="btn btn-primary" style="width: fit-content;">Open Folder</button>
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -576,6 +586,23 @@
                         </div>
                     </div>
                 `;
+            }
+            
+            // Function to open folder without opening new tab
+            window.openFolder = function(event) {
+                event.preventDefault();
+                
+                // Use fetch to call the open-folder endpoint without navigating away
+                fetch('/open-folder', {
+                    method: 'GET'
+                }).then(response => {
+                    // Do nothing with the response, we just want to trigger the folder open
+                    console.log('Folder open request sent');
+                }).catch(error => {
+                    console.error('Error opening folder:', error);
+                });
+                
+                return false;
             }
         });
     </script>
