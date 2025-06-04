@@ -1,4 +1,4 @@
-# Video Downloader and Photo Converter
+# Video Downloader and Photo Converter.
 
 A simple web application to download videos from YouTube, Instagram, and TikTok. Built with Python Flask and a modern web interface using Tailwind CSS.
 
