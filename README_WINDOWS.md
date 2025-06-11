@@ -1,4 +1,4 @@
-# Video Downloader - Windows Installation Guide
+# Windows Installation Guide
 
 Complete guide on how to install and use the Video Downloader application on Windows. Follow the steps in the correct order!
 
