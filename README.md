@@ -26,7 +26,7 @@ A simple web application to download videos from YouTube, Instagram, and TikTok.
 3. The platform will be detected automatically
 4. Click the download button
 5. Wait for the download process to complete
-6. The file will be saved in the "downloads" folder
+6. The file will be saved in the "downloads" folder.
 
 ## System Requirements
 
