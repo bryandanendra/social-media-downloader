@@ -2,7 +2,7 @@
 
 A simple web application to download videos from YouTube, Instagram, and TikTok. Built with Python Flask and a modern web interface using Tailwind CSS.
 
-## Features
+## Feature
 
 - ✨ Modern and responsive user interface
 - 🎥 Supports downloads from:
