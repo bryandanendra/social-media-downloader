@@ -5,6 +5,9 @@
 /uploads/
 /venv/
 
+# macOS App Bundle (dibuat oleh create_simple_app.sh)
+/Donverter.app/
+
 # File sistem macOS
 .DS_Store
 .DS_Store?
