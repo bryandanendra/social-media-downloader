@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Refresh - Donverter</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
+        }
+        
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .info h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .info ul {
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Force Refresh Donverter</h1>
+        <p>Untuk melihat UI/UX baru, lakukan refresh browser dengan cara berikut:</p>
+        
+        <div class="info">
+            <h3>📱 Cara Force Refresh:</h3>
+            <ul>
+                <li><strong>Chrome/Safari:</strong> Cmd + Shift + R</li>
+                <li><strong>Firefox:</strong> Cmd + Shift + R</li>
+                <li><strong>Edge:</strong> Cmd + Shift + R</li>
+                <li><strong>Mobile:</strong> Pull to refresh</li>
+            </ul>
+        </div>
+        
+        <div class="info">
+            <h3>🧹 Clear Cache:</h3>
+            <ul>
+                <li><strong>Chrome:</strong> Cmd + Shift + Delete</li>
+                <li><strong>Safari:</strong> Preferences → Advanced → Show Develop menu</li>
+                <li><strong>Firefox:</strong> Cmd + Shift + Delete</li>
+            </ul>
+        </div>
+        
+        <button class="btn" onclick="window.location.href='http://127.0.0.1:8060'">
+            🚀 Buka Donverter
+        </button>
+        
+        <button class="btn" onclick="window.location.reload(true)">
+            🔄 Refresh Halaman Ini
+        </button>
+        
+        <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            💡 Setelah refresh, UI/UX baru akan muncul dengan notifikasi yang modern!
+        </p>
+    </div>
+</body>
+</html>

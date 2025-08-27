@@ -1,0 +1,39 @@
+# Development Dependencies for Donverter
+# Install with: pip install -r requirements-dev.txt
+
+# Core Dependencies (from requirements.txt)
+-r requirements.txt
+
+# Development Tools
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# Testing & Debugging
+pytest-mock>=3.11.0
+pytest-html>=3.2.0
+coverage>=7.3.0
+
+# Code Quality
+pre-commit>=3.3.0
+isort>=5.12.0
+
+# Documentation
+sphinx>=7.1.0
+sphinx-rtd-theme>=1.3.0
+
+# Performance Monitoring
+memory-profiler>=0.61.0
+psutil>=5.9.0
+
+# Security
+bandit>=1.7.0
+safety>=2.3.0
+
+# Additional Utilities
+reportlab>=4.4.3  # For PDF creation/testing
+requests>=2.31.0  # For HTTP requests
+beautifulsoup4>=4.12.0  # For web scraping
+lxml>=4.9.0  # XML/HTML parser

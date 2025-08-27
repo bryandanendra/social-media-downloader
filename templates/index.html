@@ -105,6 +105,264 @@
             background-color: #252525;
             color: var(--light-text);
         }
+
+        /* Modern Success Notification Styles */
+        .success-notification {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .success-card {
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(52, 199, 89, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+        }
+
+        .success-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .success-icon i {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .success-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .success-message {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-download, .btn-folder {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 160px;
+            justify-content: center;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0, 122, 255, 0.4);
+            color: white;
+        }
+
+        .btn-folder {
+            background: linear-gradient(135deg, #FF9500 0%, #FF6B00 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 149, 0, 0.3);
+        }
+
+        .btn-folder:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 149, 0, 0.4);
+            color: white;
+        }
+
+        .success-info {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-item i {
+            width: 20px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Animation */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 25px 20px;
+            }
+            
+            .success-title {
+                font-size: 1.5rem;
+            }
+            
+            .success-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-download, .btn-folder {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        /* Error Notification Styles */
+        .error-notification {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .error-card {
+            background: linear-gradient(135deg, #FF3B30 0%, #FF1744 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(255, 59, 48, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
+        }
+
+        .error-icon {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .error-icon i {
+            font-size: 4rem;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .error-message {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .error-suggestions {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            padding: 8px 0;
+        }
+
+        .suggestion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .suggestion-item i {
+            width: 20px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .error-card {
+                padding: 25px 20px;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+        }
         
         .form-select {
             padding: 12px;
@@ -325,12 +583,43 @@
             display: none;
             text-align: center;
             margin: 25px 0;
+            animation: fadeIn 0.3s ease-in;
         }
         
         .spinner-border {
             color: var(--primary-color);
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 3rem;
+            height: 3rem;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        .loading-dots {
+            display: inline-block;
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes dots {
+            0%, 20% { content: "Mengunduh"; }
+            40% { content: "Mengunduh."; }
+            60% { content: "Mengunduh.."; }
+            80%, 100% { content: "Mengunduh..."; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @media (min-width: 576px) {
@@ -432,30 +721,69 @@
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <p class="mt-3">Downloading, please wait...</p>
+                    <p class="loading-text">
+                        <span class="loading-dots">Downloading</span>
+                        <span class="loading-dots">...</span>
+                    </p>
+                    <p class="text-muted mt-2">Please wait, processing video...</p>
                 </div>
 
                 <div id="resultArea"></div>
 
                 {% if success %}
-                <div class="alert alert-success mt-3">
-                    <i class="fas fa-check-circle"></i>
-                    <div>
-                        <strong>Success!</strong> File has been successfully downloaded.
-                        <br>
-                        <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
-                            <a href="/get-video/{{ download_path }}" class="btn btn-success" style="width: fit-content;" download>Download</a>
-                            <button onclick="openFolder(event)" class="btn btn-primary" style="width: fit-content;">Open Folder</button>
+                <div class="success-notification mt-4">
+                    <div class="success-card">
+                        <div class="success-content">
+                            <h3 class="success-title">🎉 Download Success!</h3>
+                            <div class="success-actions">
+                                <a href="/get-video/{{ download_path }}" class="btn-download" download>
+                                    <i class="fas fa-download"></i>
+                                    <span>Download</span>
+                                </a>
+                                <button onclick="openFolder(event)" class="btn-folder">
+                                    <i class="fas fa-folder-open"></i>
+                                    <span>Open Folder</span>
+                                </button>
+                            </div>
+                            <!-- <div class="success-info">
+                                <div class="info-item">
+                                    <i class="fas fa-file-video"></i>
+                                    <span>File: {{ download_path }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Downloaded: {{ moment().format('HH:mm') }}</span>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
                 {% endif %}
 
                 {% if error %}
-                <div class="alert alert-danger mt-3">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <div>
-                        <strong>Error!</strong> {{ error }}
+                <div class="error-notification mt-4">
+                    <div class="error-card">
+                        <div class="error-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="error-content">
+                            <h3 class="error-title">⚠️ Download Gagal</h3>
+                            <p class="error-message">{{ error }}</p>
+                            <div class="error-suggestions">
+                                <div class="suggestion-item">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>Try with different video</span>
+                                </div>
+                                <div class="suggestion-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Make sure the video URL is valid</span>
+                                </div>
+                                <div class="suggestion-item">
+                                    <i class="fas fa-refresh"></i>
+                                    <span>Refresh page</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
@@ -551,14 +879,34 @@
                         
                         // Add a button to open the downloads folder
                         resultArea.innerHTML = `
-                            <div class="alert alert-success mt-3">
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <strong>Success!</strong> File has been successfully downloaded.
-                                    <br>
-                                    <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
-                                        <a href="/get-video/${fileTitle}" class="btn btn-success" style="width: fit-content;" download>Download</a>
-                                        <button onclick="openFolder(event)" class="btn btn-primary" style="width: fit-content;">Open Folder</button>
+                            <div class="success-notification mt-4">
+                                <div class="success-card">
+                                    <div class="success-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="success-content">
+                                        <h3 class="success-title">🎉 Download Berhasil!</h3>
+                                        <p class="success-message">File telah berhasil didownload dan siap digunakan.</p>
+                                        <div class="success-actions">
+                                            <a href="/get-video/${fileTitle}" class="btn-download" download>
+                                                <i class="fas fa-download"></i>
+                                                <span>Download File</span>
+                                            </a>
+                                            <button onclick="openFolder(event)" class="btn-folder">
+                                                <i class="fas fa-folder-open"></i>
+                                                <span>Buka Folder</span>
+                                            </button>
+                                        </div>
+                                        <div class="success-info">
+                                            <div class="info-item">
+                                                <i class="fas fa-file-video"></i>
+                                                <span>File: ${fileTitle}</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <i class="fas fa-clock"></i>
+                                                <span>Downloaded: ${new Date().toLocaleTimeString('id-ID')}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -579,10 +927,29 @@
             // Function to display error
             function showError(message) {
                 resultArea.innerHTML = `
-                    <div class="alert alert-danger mt-3">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <div>
-                            <strong>Error!</strong> ${message}
+                    <div class="error-notification mt-4">
+                        <div class="error-card">
+                            <div class="error-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="error-content">
+                                <h3 class="error-title">⚠️ Download Gagal</h3>
+                                <p class="error-message">${message}</p>
+                                <div class="error-suggestions">
+                                    <div class="suggestion-item">
+                                        <i class="fas fa-lightbulb"></i>
+                                        <span>Coba dengan video yang berbeda</span>
+                                    </div>
+                                    <div class="suggestion-item">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Pastikan URL video valid</span>
+                                    </div>
+                                    <div class="suggestion-item">
+                                        <i class="fas fa-refresh"></i>
+                                        <span>Coba refresh halaman</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
