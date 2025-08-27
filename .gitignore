@@ -8,6 +8,12 @@
 # macOS App Bundle (dibuat oleh create_simple_app.sh)
 /Donverter.app/
 
+# Temporary files dan test files
+*.tmp
+*.temp
+test.pdf
+test.txt
+
 # File sistem macOS
 .DS_Store
 .DS_Store?
