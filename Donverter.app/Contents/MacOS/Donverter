@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Donverter macOS App Launcher
+# Script ini akan dijalankan ketika app dibuka
+
+# Dapatkan path direktori app bundle
+APP_BUNDLE="$(cd "$(dirname "$0")/../.." && pwd)"
+SCRIPT_DIR="$(dirname "$APP_BUNDLE")"
+
+# Buka terminal dan jalankan aplikasi
+osascript << EOT
+tell application "Terminal"
+    activate
+    do script "cd '$SCRIPT_DIR' && echo '🚀 Memulai Donverter...' && echo '=======================' && echo '' && echo '🔍 Memeriksa sistem...' && echo '' && if ! command -v python3 &> /dev/null; then echo '❌ Python3 tidak ditemukan'; echo '💡 Install Python dengan: brew install python'; echo ''; read -p 'Tekan Enter untuk keluar...'; exit 1; fi && echo '✅ Python3 ditemukan' && echo '' && if [ ! -d 'venv' ]; then echo '📦 Membuat virtual environment...'; python3 -m venv venv; fi && echo '🔧 Mengaktifkan virtual environment...' && source venv/bin/activate && echo '✅ Virtual environment aktif' && echo '' && echo '🔍 Memeriksa dependencies...' && python -c 'import flask, yt_dlp, PIL, pillow_heif, pdf2image' 2>/dev/null || (echo '📦 Menginstall dependencies...' && pip install -r requirements.txt) && echo '✅ Dependencies siap' && echo '' && echo '🔍 Memeriksa port 8060...' && if lsof -i :8060 >/dev/null 2>&1; then echo '⚠️  Port 8060 sudah digunakan'; echo '🔧 Mencoba membebaskan port...'; lsof -ti :8060 | xargs kill -9 2>/dev/null; sleep 2; fi && echo '✅ Port 8060 tersedia' && echo '' && echo '🚀 Memulai Donverter...' && echo '📱 Buka browser: http://127.0.0.1:8060' && echo '⏹️  Tekan Ctrl+C untuk stop' && echo '' && python app.py"
+end tell
+EOT
+
+# Buka browser otomatis setelah delay
+sleep 5
+open "http://127.0.0.1:8060"
