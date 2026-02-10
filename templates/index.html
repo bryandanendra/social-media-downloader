@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Downloader</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta name="description" content="DynamicDownloader - Easily download videos or audio (MP3) from YouTube, TikTok, and Instagram">
+    <meta name="description"
+        content="DynamicDownloader - Easily download videos or audio (MP3) from YouTube, TikTok, and Instagram">
     <style>
         :root {
             --primary-color: #007AFF;
@@ -22,7 +24,7 @@
             --border-radius: 14px;
             --button-bg: #252525;
         }
-        
+
         body {
             background-color: var(--secondary-color);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -30,26 +32,26 @@
             padding-top: 20px;
             padding-bottom: 40px;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 10px auto;
             padding-left: 15px;
             padding-right: 15px;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
-        
+
         .header h1 {
             font-weight: 700;
             font-size: 2.5rem;
             margin-bottom: 10px;
             color: var(--light-text);
         }
-        
+
         .card {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -59,36 +61,36 @@
             margin-bottom: 30px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         @media (min-width: 768px) {
             .card {
                 padding: 0 30px 30px 30px;
             }
-            
+
             .header h1 {
                 font-size: 3rem;
             }
         }
-        
+
         @media (max-width: 576px) {
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             .nav-tabs {
                 flex-wrap: nowrap;
             }
-            
+
             .nav-link {
                 padding: 8px 12px;
                 font-size: 0.9rem;
             }
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-control {
             padding: 12px;
             border-radius: 10px;
@@ -98,7 +100,7 @@
             color: var(--light-text);
             transition: all 0.3s ease;
         }
-        
+
         .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.25rem rgba(0, 122, 255, 0.25);
@@ -127,7 +129,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             pointer-events: none;
         }
 
@@ -139,7 +141,7 @@
         .success-icon i {
             font-size: 4rem;
             color: white;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .success-content {
@@ -153,11 +155,11 @@
             font-weight: 700;
             text-align: center;
             margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .success-message {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             text-align: center;
             font-size: 1.1rem;
             margin-bottom: 25px;
@@ -172,7 +174,8 @@
             flex-wrap: wrap;
         }
 
-        .btn-download, .btn-folder {
+        .btn-download,
+        .btn-folder {
             display: flex;
             align-items: center;
             gap: 10px;
@@ -213,7 +216,7 @@
         }
 
         .success-info {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 20px;
             backdrop-filter: blur(10px);
@@ -223,7 +226,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 8px;
             font-size: 0.95rem;
         }
@@ -234,7 +237,7 @@
 
         .info-item i {
             width: 20px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         /* Animation */
@@ -243,6 +246,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -254,17 +258,18 @@
             .success-card {
                 padding: 25px 20px;
             }
-            
+
             .success-title {
                 font-size: 1.5rem;
             }
-            
+
             .success-actions {
                 flex-direction: column;
                 align-items: center;
             }
-            
-            .btn-download, .btn-folder {
+
+            .btn-download,
+            .btn-folder {
                 width: 100%;
                 max-width: 280px;
             }
@@ -291,7 +296,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             pointer-events: none;
         }
 
@@ -303,7 +308,7 @@
         .error-icon i {
             font-size: 4rem;
             color: white;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .error-content {
@@ -317,11 +322,11 @@
             font-weight: 700;
             text-align: center;
             margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .error-message {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             text-align: center;
             font-size: 1.1rem;
             margin-bottom: 25px;
@@ -329,7 +334,7 @@
         }
 
         .error-suggestions {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 20px;
             backdrop-filter: blur(10px);
@@ -339,7 +344,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 12px;
             font-size: 0.95rem;
             padding: 8px 0;
@@ -351,19 +356,19 @@
 
         .suggestion-item i {
             width: 20px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         @media (max-width: 768px) {
             .error-card {
                 padding: 25px 20px;
             }
-            
+
             .error-title {
                 font-size: 1.5rem;
             }
         }
-        
+
         .form-select {
             padding: 12px;
             border-radius: 10px;
@@ -373,14 +378,14 @@
             color: var(--light-text);
             transition: all 0.3s ease;
         }
-        
+
         .form-select:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.25rem rgba(0, 122, 255, 0.25);
             background-color: #252525;
             color: var(--light-text);
         }
-        
+
         .btn-primary {
             background-color: var(--primary-color);
             border: none;
@@ -390,19 +395,19 @@
             transition: all 0.3s ease;
             width: 100%;
         }
-        
+
         .btn-primary:hover {
             background-color: var(--accent-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
         }
-        
+
         .nav-tabs {
             border-bottom: none;
             margin-bottom: 25px;
             justify-content: center;
         }
-        
+
         .nav-link {
             color: var(--light-text);
             font-weight: 500;
@@ -412,18 +417,18 @@
             margin: 0 5px;
             transition: all 0.3s ease;
         }
-        
+
         .nav-link:hover {
             background-color: var(--light-text);
             color: var(--primary-color);
         }
-        
+
         .nav-link.active {
             background-color: var(--light-text) !important;
             color: var(--primary-color) !important;
             font-weight: 600;
         }
-        
+
         .platform-options {
             display: flex;
             justify-content: space-between;
@@ -431,7 +436,7 @@
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
-        
+
         .platform-item {
             display: flex;
             justify-content: center;
@@ -445,51 +450,51 @@
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
-        
+
         .platform-item:hover {
             background-color: var(--light-text);
             color: var(--primary-color);
             transform: translateY(-2px);
         }
-        
+
         .platform-item.active {
             background-color: rgba(0, 122, 255, 0.15);
             border-color: var(--primary-color);
         }
-        
+
         .platform-icon {
             font-size: 20px;
             color: var(--primary-color);
         }
-        
+
         @media (min-width: 576px) {
             .platform-icon {
                 font-size: 24px;
             }
         }
-        
+
         .platform-info {
             display: none;
         }
-        
+
         .platform-info h5 {
             font-weight: 600;
             margin-bottom: 5px;
             color: var(--light-text);
         }
-        
+
         .platform-info p {
             font-size: 14px;
             margin-bottom: 0;
             color: var(--gray-text);
         }
-        
+
         .format-options {
             display: flex;
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .format-option {
             flex: 1;
             padding: 12px;
@@ -500,48 +505,109 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .format-option:hover {
             background-color: var(--light-text);
             color: var(--primary-color);
             transform: translateY(-2px);
         }
-        
+
         .format-option:hover span {
             color: var(--primary-color);
         }
-        
+
         .format-option.active {
             background-color: rgba(0, 122, 255, 0.15);
             border-color: var(--primary-color);
         }
-        
+
         .format-option i {
             font-size: 20px;
             color: var(--primary-color);
             margin-bottom: 8px;
         }
-        
+
         @media (min-width: 576px) {
             .format-option i {
                 font-size: 24px;
                 margin-bottom: 10px;
             }
         }
-        
+
         .format-option span {
             display: block;
             font-weight: 500;
             color: var(--light-text);
             font-size: 0.9rem;
         }
-        
+
         @media (min-width: 576px) {
             .format-option span {
                 font-size: 1rem;
             }
         }
-        
+
+        /* Resolution Picker */
+        .resolution-group {
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .resolution-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .resolution-option {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: #252525;
+            border: 1px solid #333;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* Match hover style with format-option */
+        .resolution-option:hover {
+            background-color: var(--light-text);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            border-color: var(--light-text);
+        }
+
+        .resolution-option.active {
+            background-color: rgba(0, 122, 255, 0.15);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .resolution-option .res-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.1);
+            color: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .resolution-option:hover .res-badge {
+            background: rgba(0, 122, 255, 0.1);
+            border-color: rgba(0, 122, 255, 0.2);
+        }
+
+
         .alert {
             padding: 14px;
             border-radius: 10px;
@@ -550,42 +616,42 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        
+
         .alert i {
             font-size: 18px;
             margin-right: 12px;
         }
-        
+
         @media (min-width: 576px) {
             .alert {
                 padding: 16px;
             }
-            
+
             .alert i {
                 font-size: 20px;
                 margin-right: 15px;
             }
         }
-        
+
         .alert-success {
             background-color: rgba(52, 199, 89, 0.15);
             border: 1px solid rgba(52, 199, 89, 0.3);
             color: var(--success-color);
         }
-        
+
         .alert-danger {
             background-color: rgba(255, 59, 48, 0.15);
             border: 1px solid rgba(255, 59, 48, 0.3);
             color: var(--error-color);
         }
-        
+
         .loading-spinner {
             display: none;
             text-align: center;
             margin: 25px 0;
             animation: fadeIn 0.3s ease-in;
         }
-        
+
         .spinner-border {
             color: var(--primary-color);
             width: 3rem;
@@ -606,29 +672,55 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes dots {
-            0%, 20% { content: "Mengunduh"; }
-            40% { content: "Mengunduh."; }
-            60% { content: "Mengunduh.."; }
-            80%, 100% { content: "Mengunduh..."; }
+
+            0%,
+            20% {
+                content: "Mengunduh";
+            }
+
+            40% {
+                content: "Mengunduh.";
+            }
+
+            60% {
+                content: "Mengunduh..";
+            }
+
+            80%,
+            100% {
+                content: "Mengunduh...";
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         @media (min-width: 576px) {
             .spinner-border {
                 width: 3rem;
                 height: 3rem;
             }
         }
-        
+
         .btn-success {
             background-color: var(--success-color);
             border: none;
@@ -636,19 +728,20 @@
             padding: 8px 16px;
             margin-top: 10px;
         }
-        
+
         @media (max-width: 576px) {
             .alert div {
                 width: 100%;
                 margin-top: 5px;
             }
-            
+
             .btn-success {
                 width: 100% !important;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -680,14 +773,14 @@
                                 <h5>YouTube</h5>
                             </div>
                         </div>
-                        
+
                         <div class="platform-item" data-platform="tiktok">
                             <i class="fab fa-tiktok platform-icon"></i>
                             <div class="platform-info">
                                 <h5>TikTok</h5>
                             </div>
                         </div>
-                        
+
                         <div class="platform-item" data-platform="instagram">
                             <i class="fab fa-instagram platform-icon"></i>
                             <div class="platform-info">
@@ -713,10 +806,29 @@
                     <input type="hidden" id="format" name="format" value="mp4">
                 </div>
 
+                <div class="form-group resolution-group" id="resolutionGroup">
+                    <label class="form-label mb-2">Resolusi:</label>
+                    <div class="resolution-options">
+                        <div class="resolution-option" data-resolution="360">360p</div>
+                        <div class="resolution-option" data-resolution="480">480p</div>
+                        <div class="resolution-option" data-resolution="720">720p <span class="res-badge">HD</span>
+                        </div>
+                        <div class="resolution-option active" data-resolution="1080">1080p <span
+                                class="res-badge">FHD</span></div>
+                        <div class="resolution-option" data-resolution="1440">1440p <span class="res-badge">2K</span>
+                        </div>
+                        <div class="resolution-option" data-resolution="2160">2160p <span class="res-badge">4K</span>
+                        </div>
+                        <div class="resolution-option" data-resolution="best">Terbaik <span class="res-badge">MAX</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="resolution" name="resolution" value="1080">
+                </div>
+
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-download me-2"></i>Download
                 </button>
-                
+
                 <div class="loading-spinner">
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -794,7 +906,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" defer></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const platformItems = document.querySelectorAll('.platform-item');
             const platformInput = document.getElementById('platform');
             const formatGroup = document.getElementById('formatGroup');
@@ -804,60 +916,89 @@
             const loadingSpinner = document.querySelector('.loading-spinner');
             const resultArea = document.getElementById('resultArea');
             const urlInput = document.getElementById('url');
-            
+            const resolutionGroup = document.getElementById('resolutionGroup');
+            const resolutionOptions = document.querySelectorAll('.resolution-option');
+            const resolutionInput = document.getElementById('resolution');
+
+            // Function to toggle resolution visibility
+            function updateResolutionVisibility() {
+                const isYouTube = platformInput.value === 'youtube';
+                const isMp4 = formatInput.value === 'mp4';
+                resolutionGroup.style.display = (isYouTube && isMp4) ? 'block' : 'none';
+            }
+
+            // Initial visibility
+            updateResolutionVisibility();
+
             // Platform selection
             platformItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     // Remove active class from all items
                     platformItems.forEach(i => i.classList.remove('active'));
-                    
+
                     // Add active class to clicked item
                     this.classList.add('active');
-                    
+
                     // Update hidden input
                     const platform = this.getAttribute('data-platform');
                     platformInput.value = platform;
-                    
+
                     // Show format options for all platforms
                     formatGroup.style.display = 'block';
+
+                    // Toggle resolution visibility
+                    updateResolutionVisibility();
                 });
             });
-            
+
             // Format selection
             formatOptions.forEach(option => {
-                option.addEventListener('click', function() {
+                option.addEventListener('click', function () {
                     // Remove active class from all options
                     formatOptions.forEach(o => o.classList.remove('active'));
-                    
+
                     // Add active class to clicked option
                     this.classList.add('active');
-                    
+
                     // Update hidden input
                     formatInput.value = this.getAttribute('data-format');
+
+                    // Toggle resolution visibility
+                    updateResolutionVisibility();
                 });
             });
-            
+
+            // Resolution selection
+            resolutionOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    resolutionOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                    resolutionInput.value = this.getAttribute('data-resolution');
+                });
+            });
+
             // Form submission with AJAX
-            downloadForm.addEventListener('submit', function(e) {
+            downloadForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 // Validate input
                 if (!urlInput.value) {
                     showError('Please enter a video URL to download');
                     return;
                 }
-                
+
                 // Show loading spinner
                 loadingSpinner.style.display = 'block';
                 resultArea.innerHTML = '';
-                
+
                 // Collect form data
                 const formData = {
                     url: urlInput.value,
                     platform: platformInput.value,
-                    format_type: formatInput.value
+                    format_type: formatInput.value,
+                    resolution: resolutionInput.value
                 };
-                
+
                 // Send AJAX request
                 fetch('/download', {
                     method: 'POST',
@@ -866,19 +1007,21 @@
                     },
                     body: JSON.stringify(formData),
                 })
-                .then(response => response.json())
-                .then(data => {
-                    // Hide loading spinner
-                    loadingSpinner.style.display = 'none';
-                    
-                    if (data.status === 'success') {
-                        // Show success notification
-                        const downloadPath = data.filename.replace('downloads/', '');
-                        // Use raw title if available, otherwise use clean title or filename
-                        const fileTitle = data.title || downloadPath;
-                        
-                        // Add a button to open the downloads folder
-                        resultArea.innerHTML = `
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide loading spinner
+                        loadingSpinner.style.display = 'none';
+
+                        if (data.status === 'success') {
+                            // Show success notification
+                            const downloadPath = data.filename.replace('downloads/', '');
+                            // Use raw title if available, otherwise use clean title or filename
+                            const fileTitle = data.title || downloadPath;
+                            // Use the full filename (with extension) for the download link
+                            const downloadFilename = downloadPath;
+
+                            // Add a button to open the downloads folder
+                            resultArea.innerHTML = `
                             <div class="success-notification mt-4">
                                 <div class="success-card">
                                     <div class="success-icon">
@@ -888,7 +1031,7 @@
                                         <h3 class="success-title">🎉 Download Berhasil!</h3>
                                         <p class="success-message">File telah berhasil didownload dan siap digunakan.</p>
                                         <div class="success-actions">
-                                            <a href="/get-video/${fileTitle}" class="btn-download" download>
+                                            <a href="/get-video/${encodeURIComponent(downloadFilename)}" class="btn-download" download>
                                                 <i class="fas fa-download"></i>
                                                 <span>Download File</span>
                                             </a>
@@ -911,19 +1054,19 @@
                                 </div>
                             </div>
                         `;
-                    } else {
-                        // Show error message
-                        showError(data.message || 'An error occurred while downloading');
-                    }
-                })
-                .catch(error => {
-                    // Hide loading spinner and show error
-                    loadingSpinner.style.display = 'none';
-                    showError('A server error occurred');
-                    console.error('Error:', error);
-                });
+                        } else {
+                            // Show error message
+                            showError(data.message || 'An error occurred while downloading');
+                        }
+                    })
+                    .catch(error => {
+                        // Hide loading spinner and show error
+                        loadingSpinner.style.display = 'none';
+                        showError('A server error occurred');
+                        console.error('Error:', error);
+                    });
             });
-            
+
             // Function to display error
             function showError(message) {
                 resultArea.innerHTML = `
@@ -954,11 +1097,11 @@
                     </div>
                 `;
             }
-            
+
             // Function to open folder without opening new tab
-            window.openFolder = function(event) {
+            window.openFolder = function (event) {
                 event.preventDefault();
-                
+
                 // Use fetch to call the open-folder endpoint without navigating away
                 fetch('/open-folder', {
                     method: 'GET'
@@ -968,10 +1111,11 @@
                 }).catch(error => {
                     console.error('Error opening folder:', error);
                 });
-                
+
                 return false;
             }
         });
     </script>
 </body>
-</html> 
+
+</html>

@@ -101,7 +101,7 @@ def save_to_cache(cache_key, data):
     with open(cache_file, 'w') as f:
         json.dump(data, f)
 
-def download_video(url, platform, format_type='mp4'):
+def download_video(url, platform, format_type='mp4', use_cookies=False, resolution='best'):
     # Check cache first
     cache_key = get_cache_key(url, platform, format_type)
     cached_data = check_cache(cache_key)
@@ -111,19 +111,19 @@ def download_video(url, platform, format_type='mp4'):
     # Configure ydl_opts based on platform
     if platform == 'instagram':
         ydl_opts = {
-            'format': 'best',  # Changed from 'best[height<=720]' to 'best' to get any available format
+            'format': 'bestvideo+bestaudio/best',
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'noplaylist': True,
             'quiet': True,
             'no_warnings': True,
             'postprocessor_args': [
-                '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-                '-c:a', 'aac', '-b:a', '128k', '-pix_fmt', 'yuv420p',
+                '-c:v', 'copy', '-c:a', 'copy',
                 '-movflags', '+faststart'
             ],
         }
         
+
         # If MP3 format is selected
         if format_type == 'mp3':
             ydl_opts = {
@@ -135,12 +135,12 @@ def download_video(url, platform, format_type='mp4'):
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
-                    'preferredquality': '192',
+                    'preferredquality': '320',
                 }],
             }
     elif platform == 'tiktok':
         ydl_opts = {
-            'format': 'best',  # Changed from 'best[height<=720]' to 'best' to get any available format
+            'format': 'bestvideo+bestaudio/best',
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'extract_flat': False,
@@ -149,8 +149,7 @@ def download_video(url, platform, format_type='mp4'):
             'quiet': True,
             'no_warnings': True,
             'postprocessor_args': [
-                '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-                '-c:a', 'aac', '-b:a', '128k', '-pix_fmt', 'yuv420p',
+                '-c:v', 'copy', '-c:a', 'copy',
                 '-movflags', '+faststart'
             ],
         }
@@ -166,7 +165,7 @@ def download_video(url, platform, format_type='mp4'):
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
-                    'preferredquality': '192',
+                    'preferredquality': '320',
                 }],
             }
     else:  # youtube
@@ -180,97 +179,104 @@ def download_video(url, platform, format_type='mp4'):
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
-                    'preferredquality': '192',
+                    'preferredquality': '320',
                 }],
             }
         else: # mp4
+            # Apply resolution filter for YouTube
+            if resolution and resolution != 'best':
+                format_str = f'bestvideo[height<={resolution}]+bestaudio/best[height<={resolution}]'
+            else:
+                format_str = 'bestvideo+bestaudio/best'
+            
             ydl_opts = {
-                # Limit maximum quality to 720p for faster download
-                'format': 'bestvideo[height<=720]+bestaudio/best[height<=720]',
+                'format': format_str,
                 'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
                 'merge_output_format': 'mp4',
                 'noplaylist': True,
                 'quiet': True,
                 'no_warnings': True,
                 'postprocessor_args': [
-                    '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-                    '-c:a', 'aac', '-b:a', '128k', '-pix_fmt', 'yuv420p',
+                    '-c:v', 'copy', '-c:a', 'copy',
                     '-movflags', '+faststart'
                 ],
             }
+            
+
+    
+    # Add cookies from browser if requested (globally)
+    if use_cookies:
+        ydl_opts['cookiesfrombrowser'] = ('chrome',)
+        
+    # Record files in download folder before downloading
+    files_before = set()
+    for f in os.listdir(DOWNLOAD_FOLDER):
+        fpath = os.path.join(DOWNLOAD_FOLDER, f)
+        if os.path.isfile(fpath):
+            files_before.add(fpath)
     
     try:
         with YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
             title = info['title']
             
+            extension = 'mp4'
+            if format_type == 'mp3':
+                extension = 'mp3'
+            
+            # Find the actual downloaded file by looking for new files in the folder
+            actual_file = None
+            for f in os.listdir(DOWNLOAD_FOLDER):
+                fpath = os.path.join(DOWNLOAD_FOLDER, f)
+                if os.path.isfile(fpath) and fpath not in files_before:
+                    actual_file = fpath
+                    break
+            
+            # Fallback: if no new file found, find most recently modified file
+            if not actual_file:
+                latest_time = 0
+                for f in os.listdir(DOWNLOAD_FOLDER):
+                    fpath = os.path.join(DOWNLOAD_FOLDER, f)
+                    if os.path.isfile(fpath) and not f.startswith('.'):
+                        mtime = os.path.getmtime(fpath)
+                        if mtime > latest_time:
+                            latest_time = mtime
+                            actual_file = fpath
+            
+            # Clean title based on platform
             if platform == 'tiktok':
                 title = clean_tiktok_title(title)
-                old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp4"
-                new_filename = f"{DOWNLOAD_FOLDER}/{title}.mp4"
-                try:
-                    if os.path.exists(old_filename):
-                        os.rename(old_filename, new_filename)
-                except Exception as e:
-                    print(f"Error renaming TikTok file: {e}")
             elif platform == 'instagram':
-                # Use caption or timestamp for filename
-                new_title = clean_instagram_title(info)
-                old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp4"
-                new_filename = f"{DOWNLOAD_FOLDER}/{new_title}.mp4"
-                
-                # If file with the same name already exists, add timestamp
-                if os.path.exists(new_filename):
-                    import time
-                    new_title = f"{new_title}_{int(time.time())}"
-                    new_filename = f"{DOWNLOAD_FOLDER}/{new_title}.mp4"
-                
-                try:
-                    if os.path.exists(old_filename):
-                        os.rename(old_filename, new_filename)
-                except Exception as e:
-                    print(f"Error renaming Instagram file: {e}")
-                title = new_title
-            elif platform == 'youtube':
-                # Clean YouTube title too
-                original_title = title
-                title = clean_filename(title)
-                
-                # If title changed, rename file
-                if original_title != title:
-                    extension = "mp4"
-                    if format_type == "mp3":
-                        extension = "mp3"
-                    
-                    old_filename = f"{DOWNLOAD_FOLDER}/{original_title}.{extension}"
-                    new_filename = f"{DOWNLOAD_FOLDER}/{title}.{extension}"
-                    
-                    try:
-                        if os.path.exists(old_filename):
-                            os.rename(old_filename, new_filename)
-                    except Exception as e:
-                        print(f"Error renaming YouTube file: {e}")
+                title = clean_instagram_title(info)
             
             # Make sure filename is clean from special characters
             title = clean_filename(title)
             
-            extension = 'mp4'
-            if format_type == 'mp3':
-                extension = 'mp3'
-                # For TikTok and Instagram, rename MP3 conversion result
-                if platform in ['tiktok', 'instagram']:
-                    mp3_old_filename = f"{DOWNLOAD_FOLDER}/{info['title']}.mp3"
-                    mp3_new_filename = f"{DOWNLOAD_FOLDER}/{title}.mp3"
-                    try:
-                        if os.path.exists(mp3_old_filename) and mp3_old_filename != mp3_new_filename:
-                            os.rename(mp3_old_filename, mp3_new_filename)
-                    except Exception as e:
-                        print(f"Error renaming MP3 file: {e}")
+            # Build the desired new filename
+            new_filename = os.path.join(DOWNLOAD_FOLDER, f"{title}.{extension}")
+            
+            # If file with the same name already exists, add timestamp
+            if os.path.exists(new_filename) and actual_file and os.path.abspath(actual_file) != os.path.abspath(new_filename):
+                title = f"{title}_{int(time.time())}"
+                new_filename = os.path.join(DOWNLOAD_FOLDER, f"{title}.{extension}")
+            
+            # Rename the actual downloaded file to the clean name
+            if actual_file and os.path.exists(actual_file) and os.path.abspath(actual_file) != os.path.abspath(new_filename):
+                try:
+                    os.rename(actual_file, new_filename)
+                    print(f"Renamed: {actual_file} -> {new_filename}")
+                except Exception as e:
+                    print(f"Error renaming file: {e}")
+                    # If rename fails, use the actual file as-is
+                    new_filename = actual_file
+                    title = os.path.splitext(os.path.basename(actual_file))[0]
+            elif actual_file:
+                new_filename = actual_file
             
             result = {
                 'status': 'success',
                 'title': title,
-                'filename': f"{DOWNLOAD_FOLDER}/{title}.{extension}"
+                'filename': new_filename
             }
             
             # Save to cache
@@ -280,13 +286,24 @@ def download_video(url, platform, format_type='mp4'):
     except Exception as e:
         error_message = str(e)
         
+        # Remove ANSI color codes
+        ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+        error_message = ansi_escape.sub('', error_message)
+        
+        # Try to use cookies if login needed and we haven't tried yet
+        if not use_cookies and ("Log in for access" in error_message or "comfortable for some audiences" in error_message or "Sign in to confirm" in error_message):
+            print("⚠️ Video requires login/sensitive content. Retrying with Chrome cookies...")
+            return download_video(url, platform, format_type, use_cookies=True, resolution=resolution)
+            
         # Provide clearer error messages and solution suggestions
         if "format is not available" in error_message:
             error_message = f"Video format not available. Please download from the original site."
+        elif "Unable to extract" in error_message:
+             error_message = "Download failed. The platform may have updated its system. Please try identifying the latest version."
         elif "Unsupported URL" in error_message or "This URL is not supported" in error_message:
             error_message = f"URL not supported. Please make sure the URL is valid for platform {platform}."
-        elif "Sign in to confirm" in error_message or "Please log in or sign up" in error_message:
-            error_message = f"This video requires login. Please download from the original site."
+        elif "Sign in to confirm" in error_message or "Please log in or sign up" in error_message or "Log in for access" in error_message:
+            error_message = f"This video requires login (Age Restricted/Sensitive). We tried leveraging your Chrome cookies but failed. Please verify you are logged in on Chrome."
             
         return {
             'status': 'error',
@@ -351,10 +368,12 @@ def download():
             url = data.get('url')
             platform = data.get('platform', 'youtube') 
             format_type = data.get('format_type', 'mp4')
+            resolution = data.get('resolution', 'best')
         else:
             url = request.form.get('url')
             platform = request.form.get('platform', 'youtube')
             format_type = request.form.get('format', 'mp4')
+            resolution = request.form.get('resolution', 'best')
         
         if not url:
             return jsonify({'status': 'error', 'message': 'URL not found'}), 400
@@ -367,7 +386,12 @@ def download():
         if platform not in ['youtube', 'tiktok', 'instagram']:
             platform = 'youtube'  # default to youtube if not valid
         
-        result = download_video(url, platform, format_type)
+        # Validate resolution
+        valid_resolutions = ['360', '480', '720', '1080', '1440', '2160', 'best']
+        if resolution not in valid_resolutions:
+            resolution = 'best'
+        
+        result = download_video(url, platform, format_type, resolution=resolution)
         
         # If request is from form, render template with result
         if not request.is_json:
