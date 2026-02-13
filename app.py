@@ -101,26 +101,79 @@ def save_to_cache(cache_key, data):
     with open(cache_file, 'w') as f:
         json.dump(data, f)
 
-def download_video(url, platform, format_type='mp4', use_cookies=False, resolution='best'):
-    # Check cache first
-    cache_key = get_cache_key(url, platform, format_type)
-    cached_data = check_cache(cache_key)
-    if cached_data:
-        return cached_data
+# Global dictionary to store progress
+download_progress = {}
+
+def get_progress_hook(task_id):
+    def progress_hook(d):
+        if d['status'] == 'downloading':
+            try:
+                # Regex to remove ANSI escape codes
+                ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+                
+                raw_percent = d.get('_percent_str', '0%')
+                clean_percent = ansi_escape.sub('', raw_percent).replace('%', '')
+                
+                raw_speed = d.get('_speed_str', 'N/A')
+                clean_speed = ansi_escape.sub('', raw_speed)
+                
+                raw_eta = d.get('_eta_str', 'N/A')
+                clean_eta = ansi_escape.sub('', raw_eta)
+                
+                download_progress[task_id] = {
+                    'status': 'downloading',
+                    'percent': clean_percent,
+                    'speed': clean_speed,
+                    'eta': clean_eta,
+                    'message': 'Downloading...'
+                }
+            except Exception:
+                pass
+        elif d['status'] == 'finished':
+            download_progress[task_id] = {
+                'status': 'processing',
+                'percent': '100',
+                'message': 'Processing video (re-encoding)...'
+            }
+    return progress_hook
+
+def download_video(url, platform, format_type='mp4', use_cookies=False, resolution='best', task_id=None):
+    # Check cache first (skip for progress tracking demo, or handle appropriately)
+    # cache_key = get_cache_key(url, platform, format_type)
+    # cached_data = check_cache(cache_key)
+    # if cached_data:
+    #     if task_id:
+    #         download_progress[task_id] = {'status': 'completed', 'percent': '100'}
+    #     return cached_data
     
     # Configure ydl_opts based on platform
+    common_opts = {
+        'progress_hooks': [get_progress_hook(task_id)] if task_id else [],
+    }
+    
     if platform == 'instagram':
         ydl_opts = {
-            'format': 'bestvideo+bestaudio/best',
+            'format': 'bestvideo[vcodec^=avc]+bestaudio[acodec^=mp4a]/bestvideo+bestaudio/best',
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'noplaylist': True,
             'quiet': True,
             'no_warnings': True,
-            'postprocessor_args': [
-                '-c:v', 'copy', '-c:a', 'copy',
-                '-movflags', '+faststart'
-            ],
+            'postprocessors': [{
+                'key': 'FFmpegVideoConvertor',
+                'preferedformat': 'mp4',
+            }],
+            'postprocessor_args': {
+                'videoconvertor': [
+                    '-c:v', 'libx264',
+                    '-preset', 'fast',
+                    '-crf', '23',
+                    '-c:a', 'aac',
+                    '-b:a', '192k',
+                    '-movflags', '+faststart',
+                    '-pix_fmt', 'yuv420p'
+                ]
+            },
         }
         
 
@@ -140,7 +193,7 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
             }
     elif platform == 'tiktok':
         ydl_opts = {
-            'format': 'bestvideo+bestaudio/best',
+            'format': 'bestvideo[vcodec^=avc]+bestaudio[acodec^=mp4a]/bestvideo+bestaudio/best',
             'outtmpl': f'{DOWNLOAD_FOLDER}/%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
             'extract_flat': False,
@@ -148,10 +201,21 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
             'noplaylist': True,
             'quiet': True,
             'no_warnings': True,
-            'postprocessor_args': [
-                '-c:v', 'copy', '-c:a', 'copy',
-                '-movflags', '+faststart'
-            ],
+            'postprocessors': [{
+                'key': 'FFmpegVideoConvertor',
+                'preferedformat': 'mp4',
+            }],
+            'postprocessor_args': {
+                'videoconvertor': [
+                    '-c:v', 'libx264',
+                    '-preset', 'fast',
+                    '-crf', '23',
+                    '-c:a', 'aac',
+                    '-b:a', '192k',
+                    '-movflags', '+faststart',
+                    '-pix_fmt', 'yuv420p'
+                ]
+            },
         }
         
         # If MP3 format is selected
@@ -184,10 +248,22 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
             }
         else: # mp4
             # Apply resolution filter for YouTube
+            # Prefer H.264 (avc1) codec directly from YouTube for max compatibility
+            # This avoids re-encoding and works natively on MacOS + After Effects
             if resolution and resolution != 'best':
-                format_str = f'bestvideo[height<={resolution}]+bestaudio/best[height<={resolution}]'
+                format_str = (
+                    f'bestvideo[height<={resolution}][vcodec^=avc1]+bestaudio[acodec^=mp4a]/'
+                    f'bestvideo[height<={resolution}][vcodec^=avc]+bestaudio/'
+                    f'bestvideo[height<={resolution}]+bestaudio/'
+                    f'bestvideo[vcodec^=avc1]+bestaudio[acodec^=mp4a]/'
+                    f'bestvideo+bestaudio/best'
+                )
             else:
-                format_str = 'bestvideo+bestaudio/best'
+                format_str = (
+                    'bestvideo[vcodec^=avc1]+bestaudio[acodec^=mp4a]/'
+                    'bestvideo[vcodec^=avc]+bestaudio/'
+                    'bestvideo+bestaudio/best'
+                )
             
             ydl_opts = {
                 'format': format_str,
@@ -196,13 +272,25 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
                 'noplaylist': True,
                 'quiet': True,
                 'no_warnings': True,
-                'postprocessor_args': [
-                    '-c:v', 'copy', '-c:a', 'copy',
-                    '-movflags', '+faststart'
-                ],
+                'postprocessors': [{
+                    'key': 'FFmpegVideoConvertor',
+                    'preferedformat': 'mp4',
+                }],
+                'postprocessor_args': {
+                    'videoconvertor': [
+                        '-c:v', 'libx264',
+                        '-preset', 'fast',
+                        '-crf', '23',
+                        '-c:a', 'aac',
+                        '-b:a', '192k',
+                        '-movflags', '+faststart',
+                        '-pix_fmt', 'yuv420p'
+                    ]
+                },
             }
             
-
+    # Add common hooks
+    ydl_opts.update(common_opts)
     
     # Add cookies from browser if requested (globally)
     if use_cookies:
@@ -280,10 +368,16 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
             }
             
             # Save to cache
-            save_to_cache(cache_key, result)
+            # save_to_cache(cache_key, result)
             
+            if task_id:
+                download_progress[task_id] = {'status': 'completed', 'percent': '100'}
+
             return result
     except Exception as e:
+        if task_id:
+            download_progress[task_id] = {'status': 'error', 'message': str(e)}
+
         error_message = str(e)
         
         # Remove ANSI color codes
@@ -293,7 +387,7 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
         # Try to use cookies if login needed and we haven't tried yet
         if not use_cookies and ("Log in for access" in error_message or "comfortable for some audiences" in error_message or "Sign in to confirm" in error_message):
             print("⚠️ Video requires login/sensitive content. Retrying with Chrome cookies...")
-            return download_video(url, platform, format_type, use_cookies=True, resolution=resolution)
+            return download_video(url, platform, format_type, use_cookies=True, resolution=resolution, task_id=task_id)
             
         # Provide clearer error messages and solution suggestions
         if "format is not available" in error_message:
@@ -311,40 +405,60 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
         }
 
 # Functions for Image Converter
-def convert_image(input_path, output_path, target_format):
-    """Converting images to specified format (HEIC/JPG/PNG to JPG/PNG/PDF)"""
+def convert_image(input_path, output_path, target_format, quality=100):
+    """Converting images to specified format (HEIC/JPG/PNG to JPG/PNG/PDF) with quality control"""
     try:
-        # For HEIC to other formats (JPG/PNG/PDF)
-        if input_path.lower().endswith('.heic'):
-            img = Image.open(input_path)
-            # Convert color mode if needed
-            if img.mode != 'RGB' and target_format.lower() != 'png':
-                img = img.convert('RGB')
-            
-            # Specific handling for PDF conversion
-            if target_format.lower() == 'pdf':
-                if img.mode != 'RGB':
-                    img = img.convert('RGB')
-                img.save(output_path, format=target_format, resolution=100.0)
-            else:
-                img.save(output_path, format=target_format)
-            return True
-        # For other formats
-        elif input_path.lower().endswith(('.jpg', '.jpeg', '.png')):
-            img = Image.open(input_path)
-            # Convert to PDF
-            if target_format.lower() == 'pdf':
-                if img.mode != 'RGB':
-                    img = img.convert('RGB')
-                img.save(output_path, format=target_format, resolution=100.0)
-            else:
-                if img.mode != 'RGB' and target_format.lower() != 'png':
-                    img = img.convert('RGB')
-                img.save(output_path, format=target_format)
-            return True
-        else:
+        # Determine if optimization should be used based on quality setting
+        use_optimize = quality < 100
+        
+        img = Image.open(input_path)
+        
+        # Preserve metadata (EXIF and ICC profile) to avoid quality/color degradation
+        exif_data = img.info.get('exif', None)
+        icc_profile = img.info.get('icc_profile', None)
+        
+        # Build common save kwargs for preserving metadata
+        save_kwargs = {}
+        if exif_data and target_format.lower() in ['jpeg', 'png']:
+            save_kwargs['exif'] = exif_data
+        if icc_profile:
+            save_kwargs['icc_profile'] = icc_profile
+        
+        # Check supported input formats
+        if not input_path.lower().endswith(('.heic', '.jpg', '.jpeg', '.png')):
             print(f"Input file format not supported: {input_path}")
             return False
+        
+        # Convert color mode if needed for non-PNG targets
+        if target_format.lower() == 'pdf':
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            img.save(output_path, format=target_format, resolution=100.0, **save_kwargs)
+        elif target_format.lower() == 'jpeg':
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            jpeg_kwargs = {
+                'quality': quality,
+                'optimize': True,
+                **save_kwargs
+            }
+            # When quality=100 (no compression), prevent chroma subsampling for max quality
+            if quality == 100:
+                jpeg_kwargs['subsampling'] = 0
+            img.save(output_path, format=target_format, **jpeg_kwargs)
+        elif target_format.lower() == 'png':
+            # PNG compression is always lossless (no quality loss), so always optimize
+            png_kwargs = {
+                'optimize': True,
+                **save_kwargs
+            }
+            img.save(output_path, format=target_format, **png_kwargs)
+        else:
+            if img.mode != 'RGB' and target_format.lower() != 'png':
+                img = img.convert('RGB')
+            img.save(output_path, format=target_format, **save_kwargs)
+        
+        return True
     except Exception as e:
         print(f"Error converting image: {e}")
         return False
@@ -358,6 +472,10 @@ def home():
 def image_converter():
     return render_template('image_converter.html')
 
+@app.route('/progress/<task_id>')
+def progress(task_id):
+    return jsonify(download_progress.get(task_id, {'status': 'unknown'}))
+
 # Video Downloader Routes
 @app.route('/download', methods=['POST'])
 def download():
@@ -369,11 +487,13 @@ def download():
             platform = data.get('platform', 'youtube') 
             format_type = data.get('format_type', 'mp4')
             resolution = data.get('resolution', 'best')
+            task_id = data.get('task_id')
         else:
             url = request.form.get('url')
             platform = request.form.get('platform', 'youtube')
             format_type = request.form.get('format', 'mp4')
             resolution = request.form.get('resolution', 'best')
+            task_id = request.form.get('task_id')
         
         if not url:
             return jsonify({'status': 'error', 'message': 'URL not found'}), 400
@@ -391,7 +511,7 @@ def download():
         if resolution not in valid_resolutions:
             resolution = 'best'
         
-        result = download_video(url, platform, format_type, resolution=resolution)
+        result = download_video(url, platform, format_type, resolution=resolution, task_id=task_id)
         
         # If request is from form, render template with result
         if not request.is_json:
@@ -475,6 +595,7 @@ def convert_image_api():
         return jsonify({'status': 'error', 'message': 'No file selected'})
     
     target_format = request.form.get('format', 'jpeg').lower()
+    quality = int(request.form.get('quality', 100))  # Default 100 (no compression)
     
     # Validate supported formats
     if target_format not in ['jpeg', 'png', 'pdf']:
@@ -489,6 +610,9 @@ def convert_image_api():
     upload_path = os.path.join(UPLOAD_FOLDER, f"{base_filename}_{timestamp}{file_ext}")
     file.save(upload_path)
     
+    # Get original file size
+    original_size = os.path.getsize(upload_path)
+    
     # Determine output path
     ext_map = {
         'jpeg': '.jpg',
@@ -499,15 +623,24 @@ def convert_image_api():
     output_filename = f"{base_filename}_{timestamp}{ext_map[target_format]}"
     output_path = os.path.join(CONVERTED_FOLDER, output_filename)
     
-    # Perform conversion
-    success = convert_image(upload_path, output_path, target_format)
+    # Perform conversion with quality
+    success = convert_image(upload_path, output_path, target_format, quality=quality)
     
     if success:
+        # Get converted file size
+        converted_size = os.path.getsize(output_path)
+        
+        # Calculate compression ratio
+        compression_ratio = ((original_size - converted_size) / original_size * 100) if converted_size < original_size else 0
+        
         return jsonify({
             'status': 'success',
             'message': 'Conversion successful',
             'filename': output_filename,
-            'download_url': f'/get-converted-image/{output_filename}'
+            'download_url': f'/get-converted-image/{output_filename}',
+            'original_size': original_size,
+            'converted_size': converted_size,
+            'compression_ratio': round(compression_ratio, 1)
         })
     else:
         return jsonify({

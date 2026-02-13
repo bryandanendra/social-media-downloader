@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +21,7 @@
             --border-radius: 14px;
             --button-bg: #252525;
         }
-        
+
         body {
             background-color: var(--secondary-color);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -28,47 +29,47 @@
             padding-top: 20px;
             padding-bottom: 40px;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 10px auto;
             padding-left: 15px;
             padding-right: 15px;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
-        
+
         .header h1 {
             font-weight: 700;
             font-size: 2.5rem;
             margin-bottom: 10px;
             color: var(--light-text);
         }
-        
+
         @media (min-width: 768px) {
             .header h1 {
                 font-size: 3rem;
             }
         }
-        
+
         @media (max-width: 576px) {
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             .nav-tabs {
                 flex-wrap: nowrap;
             }
-            
+
             .nav-link {
                 padding: 8px 12px;
                 font-size: 0.9rem;
             }
         }
-        
+
         .card {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -77,34 +78,23 @@
             padding: 0 20px 25px 20px;
             margin-bottom: 30px;
         }
-        
+
         @media (min-width: 768px) {
             .card {
                 padding: 0 30px 30px 30px;
             }
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
-        .form-select {
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            font-size: 1rem;
-            background-color: #252525;
+
+        .form-label {
             color: var(--light-text);
-            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-bottom: 10px;
         }
-        
-        .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(0, 122, 255, 0.25);
-            background-color: #252525;
-            color: var(--light-text);
-        }
-        
+
         .btn-primary {
             background-color: var(--primary-color);
             border: none;
@@ -114,13 +104,13 @@
             transition: all 0.3s ease;
             width: 100%;
         }
-        
+
         .btn-primary:hover {
             background-color: var(--accent-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
         }
-        
+
         .btn-success {
             background-color: var(--success-color);
             border: none;
@@ -131,25 +121,25 @@
             width: 100%;
             max-width: 200px;
         }
-        
+
         @media (max-width: 576px) {
             .btn-success {
                 max-width: 100%;
             }
         }
-        
+
         .btn-success:hover {
             background-color: #2cb14f;
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);
         }
-        
+
         .nav-tabs {
             border-bottom: none;
             margin-bottom: 25px;
             justify-content: center;
         }
-        
+
         .nav-link {
             color: var(--light-text);
             font-weight: 500;
@@ -159,18 +149,18 @@
             margin: 0 5px;
             transition: all 0.3s ease;
         }
-        
+
         .nav-link:hover {
             background-color: var(--light-text);
             color: var(--primary-color);
         }
-        
+
         .nav-link.active {
             background-color: var(--light-text) !important;
             color: var(--primary-color) !important;
             font-weight: 600;
         }
-        
+
         #dropArea {
             border: 2px dashed rgba(0, 122, 255, 0.3);
             border-radius: var(--border-radius);
@@ -181,50 +171,50 @@
             transition: all 0.3s ease;
             background-color: #252525;
         }
-        
+
         @media (min-width: 576px) {
             #dropArea {
                 padding: 30px;
                 margin-bottom: 30px;
             }
         }
-        
+
         #dropArea.highlight {
             border-color: var(--primary-color);
             background-color: rgba(0, 122, 255, 0.2);
         }
-        
+
         #dropArea p {
             color: var(--light-text);
             font-size: 0.95rem;
             margin-bottom: 8px;
         }
-        
+
         @media (min-width: 576px) {
             #dropArea p {
                 font-size: 1.1rem;
                 margin-bottom: 10px;
             }
         }
-        
+
         #dropArea .text-muted {
             color: var(--gray-text) !important;
             font-size: 0.85rem;
         }
-        
+
         @media (min-width: 576px) {
             #dropArea .text-muted {
                 font-size: 0.95rem;
             }
         }
-        
+
         #dropArea svg {
             width: 40px;
             height: 40px;
             color: var(--primary-color);
             margin-bottom: 10px;
         }
-        
+
         @media (min-width: 576px) {
             #dropArea svg {
                 width: 60px;
@@ -232,7 +222,7 @@
                 margin-bottom: 15px;
             }
         }
-        
+
         #previewImage {
             max-width: 100%;
             max-height: 250px;
@@ -241,33 +231,84 @@
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-        
+
         @media (min-width: 768px) {
             #previewImage {
                 max-height: 300px;
                 margin-bottom: 30px;
             }
         }
-        
-        .loading-spinner {
+
+        /* Apple-style Progress Bar */
+        .progress-wrapper {
             display: none;
-            text-align: center;
-            margin: 25px 0;
+            margin-top: 25px;
+            animation: fadeIn 0.4s ease;
         }
-        
-        .spinner-border {
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        .progress-status {
             color: var(--primary-color);
-            width: 2.5rem;
-            height: 2.5rem;
         }
-        
-        @media (min-width: 576px) {
-            .spinner-border {
-                width: 3rem;
-                height: 3rem;
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #007AFF, #00C7BE);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            transform: translateX(-100%);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
             }
         }
-        
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .result-section {
             margin-top: 25px;
             display: none;
@@ -276,22 +317,55 @@
             background-color: rgba(52, 199, 89, 0.1);
             border: 1px solid rgba(52, 199, 89, 0.3);
         }
-        
+
         @media (min-width: 576px) {
             .result-section {
                 margin-top: 30px;
                 padding: 25px;
             }
         }
-        
+
+        .file-size-comparison {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .size-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .size-label {
+            color: var(--gray-text);
+        }
+
+        .size-value {
+            color: var(--light-text);
+            font-weight: 600;
+        }
+
+        .compression-badge {
+            display: inline-block;
+            background-color: var(--success-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
         #dropArea:hover p {
             color: var(--primary-color);
         }
-        
+
         #dropArea:hover .text-muted {
             color: var(--primary-color) !important;
         }
-        
+
         .platform-options {
             display: flex;
             justify-content: space-between;
@@ -299,7 +373,7 @@
             margin-bottom: 15px;
             flex-wrap: wrap;
         }
-        
+
         .platform-item {
             display: flex;
             justify-content: center;
@@ -313,56 +387,255 @@
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
-        
+
         .platform-item:hover {
             background-color: var(--light-text);
             color: var(--primary-color);
             transform: translateY(-2px);
         }
-        
+
         .platform-item.active {
             background-color: rgba(0, 122, 255, 0.15);
             border-color: var(--primary-color);
         }
-        
+
         .platform-icon {
             font-size: 20px;
             color: var(--primary-color);
         }
-        
+
         @media (min-width: 576px) {
             .platform-icon {
                 font-size: 24px;
             }
         }
-        
+
         .platform-info {
             text-align: center;
             width: 100%;
         }
-        
+
         .platform-info h5 {
             font-weight: 600;
             margin-bottom: 0;
             color: var(--light-text);
             font-size: 0.9rem;
         }
-        
+
         @media (min-width: 576px) {
             .platform-info h5 {
                 font-size: 1rem;
             }
         }
-        
+
         .platform-item:hover .platform-info h5 {
             color: var(--primary-color);
         }
-        
+
         .platform-item.active .platform-info h5 {
             color: var(--primary-color);
         }
+
+        /* iOS Style Toggle Switch */
+        .compression-toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .compression-toggle-container:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 24px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider-toggle {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3a3a3c;
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .slider-toggle:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked+.slider-toggle {
+            background-color: #34C759;
+            /* Apple Green */
+        }
+
+        input:checked+.slider-toggle:before {
+            transform: translateX(18px);
+        }
+
+        .toggle-label-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--light-text);
+        }
+
+        /* Premium Apple Button - No Glow */
+        .btn-primary {
+            background: linear-gradient(180deg, #007AFF 0%, #0062CC 100%);
+            border: none;
+            padding: 16px 24px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: -0.01em;
+            border-radius: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            filter: brightness(1.05);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background: linear-gradient(180deg, #34C759 0%, #248A3D 100%);
+            border: none;
+            padding: 14px 20px;
+            font-weight: 600;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            filter: brightness(1.05);
+        }
+
+        /* Quality Slider */
+        .quality-slider-wrapper {
+            margin-bottom: 25px;
+            display: none;
+            /* Hidden by default */
+            padding: 0 5px;
+        }
+
+        .quality-labels {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: var(--gray-text);
+        }
+
+        .quality-label {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background-color: #252525;
+            border: 1px solid transparent;
+            font-weight: 500;
+        }
+
+        .quality-label:hover {
+            background-color: var(--light-text);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .quality-label.active {
+            color: var(--primary-color);
+            font-weight: 600;
+            background-color: rgba(0, 122, 255, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+            margin-top: -9px;
+            /* centers thumb */
+        }
+
+        /* Custom track style to center thumb properly */
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 6px;
+            border-radius: 10px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .quality-value {
+            text-align: center;
+            margin-top: 12px;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -381,7 +654,8 @@
 
             <div id="dropArea">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <p>Drag and drop image here or click to select</p>
                 <p class="text-muted">Format: PNG, JPG, JPEG, HEIC</p>
@@ -399,13 +673,13 @@
                                 <h5>JPG</h5>
                             </div>
                         </div>
-                        
+
                         <div class="platform-item" data-format="png">
                             <div class="platform-info">
                                 <h5>PNG</h5>
                             </div>
                         </div>
-                        
+
                         <div class="platform-item" data-format="pdf">
                             <div class="platform-info">
                                 <h5>PDF</h5>
@@ -415,25 +689,64 @@
                     <input type="hidden" id="format" name="format" value="jpeg">
                 </div>
 
+                <div class="compression-toggle-container">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="compressionToggle">
+                        <span class="slider-toggle"></span>
+                    </label>
+                    <span class="toggle-label-text">Enable Compression</span>
+                </div>
+
+                <div class="form-group quality-slider-wrapper" id="qualityGroup">
+                    <label class="form-label mb-2">Quality:</label>
+                    <div class="quality-labels">
+                        <div class="quality-label" data-value="40">Low</div>
+                        <div class="quality-label active" data-value="85">Medium</div>
+                        <div class="quality-label" data-value="95">High</div>
+                    </div>
+                    <input type="range" id="qualitySlider" min="1" max="100" value="85">
+                    <div class="quality-value" id="qualityValue">Quality: 85</div>
+                </div>
+
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-exchange-alt me-2"></i>Convert
+                    <i class="fas fa-exchange-alt me-2"></i>Convert Image
                 </button>
             </form>
 
-            <div class="loading-spinner">
-                <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <div class="progress-status" id="progressStatus">Processing...</div>
                 </div>
-                <p class="mt-3">Converting...</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
             </div>
 
             <div class="result-section">
                 <div class="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#34C759" class="mb-3" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#34C759" class="mb-3"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                     </svg>
                     <h5 class="mb-3" id="successMessage">Conversion Successful!</h5>
-                    <a id="downloadLink" class="btn btn-success mx-auto d-block" href="#" download>
+
+                    <div class="file-size-comparison" id="fileSizeComparison" style="display:none;">
+                        <div class="size-row">
+                            <span class="size-label">Original Size:</span>
+                            <span class="size-value" id="originalSize">--</span>
+                        </div>
+                        <div class="size-row">
+                            <span class="size-label">Converted Size:</span>
+                            <span class="size-value" id="convertedSize">--</span>
+                        </div>
+                        <div class="size-row" id="compressionRow" style="display:none;">
+                            <span class="size-label">Saved:</span>
+                            <span class="compression-badge" id="compressionBadge">0%</span>
+                        </div>
+                    </div>
+
+                    <a id="downloadLink" class="btn btn-success mx-auto d-block mt-3" href="#" download>
                         <i class="fas fa-download me-2"></i>Download File
                     </a>
                 </div>
@@ -444,63 +757,129 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const dropArea = document.getElementById('dropArea');
             const fileInput = document.getElementById('fileInput');
             const previewImage = document.getElementById('previewImage');
             const converterForm = document.getElementById('converterForm');
             const formatItems = document.querySelectorAll('.platform-item');
             const formatInput = document.getElementById('format');
-            const loadingSpinner = document.querySelector('.loading-spinner');
+            const progressWrapper = document.querySelector('.progress-wrapper');
             const resultSection = document.querySelector('.result-section');
             const downloadLink = document.getElementById('downloadLink');
             const successMessage = document.getElementById('successMessage');
-            
+
+            // Compression toggle
+            const compressionToggle = document.getElementById('compressionToggle');
+
+            // Quality slider elements
+            const qualityGroup = document.getElementById('qualityGroup');
+            const qualitySlider = document.getElementById('qualitySlider');
+            const qualityValue = document.getElementById('qualityValue');
+            const qualityLabels = document.querySelectorAll('.quality-label');
+
+            // File size elements
+            const fileSizeComparison = document.getElementById('fileSizeComparison');
+            const originalSize = document.getElementById('originalSize');
+            const convertedSize = document.getElementById('convertedSize');
+            const compressionRow = document.getElementById('compressionRow');
+            const compressionBadge = document.getElementById('compressionBadge');
+
             let selectedFile = null;
-            
+
             // Format selection
             formatItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     formatItems.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
-                    formatInput.value = this.getAttribute('data-format');
+                    const selectedFormat = this.getAttribute('data-format');
+                    formatInput.value = selectedFormat;
+
+                    // Hide compression options for PDF
+                    const toggleContainer = document.querySelector('.compression-toggle-container');
+
+                    if (selectedFormat === 'pdf') {
+                        if (toggleContainer) toggleContainer.style.display = 'none';
+                        qualityGroup.style.display = 'none';
+                    } else {
+                        if (toggleContainer) toggleContainer.style.display = 'flex';
+                        // Show quality only if compression is enabled
+                        if (compressionToggle.checked) {
+                            qualityGroup.style.display = 'block';
+                        }
+                    }
                 });
             });
-            
+
+            // Compression toggle handler
+            compressionToggle.addEventListener('change', function () {
+                if (this.checked) {
+                    qualityGroup.style.display = 'block';
+                } else {
+                    qualityGroup.style.display = 'none';
+                }
+            });
+
+            // Quality slider
+            qualitySlider.addEventListener('input', function () {
+                const value = this.value;
+                qualityValue.textContent = `Quality: ${value}`;
+
+                // Update labels
+                qualityLabels.forEach(label => {
+                    label.classList.remove('active');
+                    const labelValue = parseInt(label.getAttribute('data-value'));
+                    if (Math.abs(value - labelValue) <= 10) {
+                        label.classList.add('active');
+                    }
+                });
+            });
+
+            // Quality label clicks
+            qualityLabels.forEach(label => {
+                label.addEventListener('click', function () {
+                    const value = this.getAttribute('data-value');
+                    qualitySlider.value = value;
+                    qualityValue.textContent = `Quality: ${value}`;
+                    qualityLabels.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
             // File drop handling
-            dropArea.addEventListener('dragover', function(e) {
+            dropArea.addEventListener('dragover', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.classList.add('highlight');
             });
-            
-            dropArea.addEventListener('dragleave', function(e) {
+
+            dropArea.addEventListener('dragleave', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.classList.remove('highlight');
             });
-            
-            dropArea.addEventListener('drop', function(e) {
+
+            dropArea.addEventListener('drop', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.classList.remove('highlight');
-                
+
                 const files = e.dataTransfer.files;
                 if (files.length > 0) {
                     handleFile(files[0]);
                 }
             });
-            
-            dropArea.addEventListener('click', function() {
+
+            dropArea.addEventListener('click', function () {
                 fileInput.click();
             });
-            
-            fileInput.addEventListener('change', function() {
+
+            fileInput.addEventListener('change', function () {
                 if (this.files.length > 0) {
                     handleFile(this.files[0]);
                 }
             });
-            
+
             function handleFile(file) {
                 // Validate file type
                 const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic'];
@@ -508,16 +887,14 @@
                     alert('File format not supported. Please upload JPG, JPEG, PNG, or HEIC files.');
                     return;
                 }
-                
+
                 // Store selected file
                 selectedFile = file;
-                
-                // Show preview - add special handling for HEIC
+
+                // Show preview
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    // If HEIC, show placeholder as browsers can't preview HEIC
+                reader.onload = function (e) {
                     if (file.type === 'image/heic') {
-                        // Display file info without preview
                         previewImage.style.display = 'none';
                         dropArea.innerHTML = `
                             <div class="text-center">
@@ -525,13 +902,12 @@
                                     <path d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4z"/>
                                     <path d="M8 4.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V9a.5.5 0 0 1-1 0V7.5H6a.5.5 0 0 1 0-1h1.5V5a.5.5 0 0 1 .5-.5z"/>
                                 </svg>
-                                <p class="text-primary">HEIC file ready for conversion</p>
-                                <p class="text-muted">Filename: ${file.name}</p>
-                                <p class="text-muted">Size: ${(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+                                <p class="text-primary">HEIC file ready</p>
+                                <p class="text-muted">File: ${file.name}</p>
+                                <p class="text-muted">Size: ${formatFileSize(file.size)}</p>
                             </div>
                         `;
                     } else {
-                        // For other formats, display normal preview
                         previewImage.src = e.target.result;
                         previewImage.style.display = 'block';
                         dropArea.style.display = 'none';
@@ -539,50 +915,76 @@
                 };
                 reader.readAsDataURL(file);
             }
-            
+
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                else if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+                else return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+            }
+
             // Form submission
-            converterForm.addEventListener('submit', function(e) {
+            converterForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 if (!selectedFile) {
                     alert('Please select an image first');
                     return;
                 }
-                
-                // Show loading spinner
-                loadingSpinner.style.display = 'block';
+
+                // Show progress bar
+                progressWrapper.style.display = 'block';
                 resultSection.style.display = 'none';
-                
+
+                // Determine quality value: if compression disabled, use 100 (no compression)
+                const quality = compressionToggle.checked ? qualitySlider.value : 100;
+
                 // Create form data
                 const formData = new FormData();
                 formData.append('file', selectedFile);
                 formData.append('format', formatInput.value);
-                
+                formData.append('quality', quality);
+
                 // Send request
                 fetch('/convert-image', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
-                .then(data => {
-                    loadingSpinner.style.display = 'none';
-                    
-                    if (data.status === 'success') {
-                        // Update success message
-                        resultSection.style.display = 'block';
-                        downloadLink.href = data.download_url;
-                        successMessage.textContent = 'Conversion Successful!';
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    loadingSpinner.style.display = 'none';
-                    alert('An error occurred while converting the image');
-                    console.error('Error:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        progressWrapper.style.display = 'none';
+
+                        if (data.status === 'success') {
+                            // Update success message
+                            resultSection.style.display = 'block';
+                            downloadLink.href = data.download_url;
+                            successMessage.textContent = 'Conversion Successful!';
+
+                            // Show file size comparison
+                            if (data.original_size && data.converted_size) {
+                                fileSizeComparison.style.display = 'block';
+                                originalSize.textContent = formatFileSize(data.original_size);
+                                convertedSize.textContent = formatFileSize(data.converted_size);
+
+                                // Only show "Saved" when compression was enabled
+                                if (compressionToggle.checked && data.compression_ratio > 0) {
+                                    compressionRow.style.display = 'flex';
+                                    compressionBadge.textContent = data.compression_ratio + '% smaller';
+                                } else {
+                                    compressionRow.style.display = 'none';
+                                }
+                            }
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        progressWrapper.style.display = 'none';
+                        alert('An error occurred while converting the image');
+                        console.error('Error:', error);
+                    });
             });
         });
     </script>
 </body>
-</html> 
+
+</html>
