@@ -406,7 +406,7 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
 
 # Functions for Image Converter
 def convert_image(input_path, output_path, target_format, quality=100):
-    """Converting images to specified format (HEIC/JPG/PNG to JPG/PNG/PDF) with quality control"""
+    """Converting images to specified format (HEIC/HEIF/JPG/PNG to JPG/PNG/PDF/HEIF) with quality control"""
     try:
         # Determine if optimization should be used based on quality setting
         use_optimize = quality < 100
@@ -419,13 +419,13 @@ def convert_image(input_path, output_path, target_format, quality=100):
         
         # Build common save kwargs for preserving metadata
         save_kwargs = {}
-        if exif_data and target_format.lower() in ['jpeg', 'png']:
+        if exif_data and target_format.lower() in ['jpeg', 'png', 'heif']:
             save_kwargs['exif'] = exif_data
         if icc_profile:
             save_kwargs['icc_profile'] = icc_profile
         
         # Check supported input formats
-        if not input_path.lower().endswith(('.heic', '.jpg', '.jpeg', '.png')):
+        if not input_path.lower().endswith(('.heic', '.heif', '.jpg', '.jpeg', '.png', '.webp')):
             print(f"Input file format not supported: {input_path}")
             return False
         
@@ -453,6 +453,23 @@ def convert_image(input_path, output_path, target_format, quality=100):
                 **save_kwargs
             }
             img.save(output_path, format=target_format, **png_kwargs)
+        elif target_format.lower() == 'heif':
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            heif_kwargs = {
+                'quality': quality,
+                **save_kwargs
+            }
+            img.save(output_path, format='HEIF', **heif_kwargs)
+        elif target_format.lower() == 'webp':
+            webp_kwargs = {
+                'quality': quality,
+                'method': 4,
+                **save_kwargs
+            }
+            if quality == 100:
+                webp_kwargs['lossless'] = True
+            img.save(output_path, format='WEBP', **webp_kwargs)
         else:
             if img.mode != 'RGB' and target_format.lower() != 'png':
                 img = img.convert('RGB')
@@ -598,7 +615,7 @@ def convert_image_api():
     quality = int(request.form.get('quality', 100))  # Default 100 (no compression)
     
     # Validate supported formats
-    if target_format not in ['jpeg', 'png', 'pdf']:
+    if target_format not in ['jpeg', 'png', 'pdf', 'heif', 'webp']:
         return jsonify({'status': 'error', 'message': 'Format not supported'})
     
     # Save uploaded file
@@ -617,7 +634,9 @@ def convert_image_api():
     ext_map = {
         'jpeg': '.jpg',
         'png': '.png',
-        'pdf': '.pdf'
+        'pdf': '.pdf',
+        'heif': '.heif',
+        'webp': '.webp'
     }
     
     output_filename = f"{base_filename}_{timestamp}{ext_map[target_format]}"
