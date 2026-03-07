@@ -9,6 +9,7 @@ from pillow_heif import register_heif_opener
 from pathlib import Path
 import hashlib
 import json
+import zipfile
 
 # Register HEIF opener to support HEIC
 register_heif_opener()
@@ -666,6 +667,115 @@ def convert_image_api():
             'status': 'error',
             'message': 'Failed to convert image'
         })
+
+@app.route('/convert-images', methods=['POST'])
+def convert_images_api():
+    """Batch convert multiple images"""
+    files = request.files.getlist('files')
+    if not files or len(files) == 0:
+        return jsonify({'status': 'error', 'message': 'No files found'})
+    
+    target_format = request.form.get('format', 'jpeg').lower()
+    quality = int(request.form.get('quality', 100))
+    
+    # Validate supported formats
+    if target_format not in ['jpeg', 'png', 'pdf', 'heif', 'webp']:
+        return jsonify({'status': 'error', 'message': 'Format not supported'})
+    
+    ext_map = {
+        'jpeg': '.jpg',
+        'png': '.png',
+        'pdf': '.pdf',
+        'heif': '.heif',
+        'webp': '.webp'
+    }
+    
+    timestamp = int(time.time())
+    converted_files = []
+    total_original_size = 0
+    total_converted_size = 0
+    
+    for i, file in enumerate(files):
+        if file.filename == '':
+            continue
+        
+        original_filename = file.filename
+        file_ext = Path(original_filename).suffix
+        base_filename = Path(original_filename).stem
+        
+        upload_path = os.path.join(UPLOAD_FOLDER, f"{base_filename}_{timestamp}_{i}{file_ext}")
+        file.save(upload_path)
+        
+        original_size = os.path.getsize(upload_path)
+        total_original_size += original_size
+        
+        output_filename = f"{base_filename}_{timestamp}_{i}{ext_map[target_format]}"
+        output_path = os.path.join(CONVERTED_FOLDER, output_filename)
+        
+        success = convert_image(upload_path, output_path, target_format, quality=quality)
+        
+        if success:
+            converted_size = os.path.getsize(output_path)
+            total_converted_size += converted_size
+            # Use clean name for inside ZIP (without timestamp)
+            clean_name = f"{base_filename}{ext_map[target_format]}"
+            converted_files.append({
+                'path': output_path,
+                'filename': output_filename,
+                'clean_name': clean_name,
+                'original_size': original_size,
+                'converted_size': converted_size
+            })
+    
+    if len(converted_files) == 0:
+        return jsonify({'status': 'error', 'message': 'Failed to convert any image'})
+    
+    # If single file, return it directly like before
+    if len(converted_files) == 1:
+        cf = converted_files[0]
+        compression_ratio = ((cf['original_size'] - cf['converted_size']) / cf['original_size'] * 100) if cf['converted_size'] < cf['original_size'] else 0
+        return jsonify({
+            'status': 'success',
+            'message': 'Conversion successful',
+            'filename': cf['filename'],
+            'download_url': f'/get-converted-image/{cf["filename"]}',
+            'original_size': cf['original_size'],
+            'converted_size': cf['converted_size'],
+            'compression_ratio': round(compression_ratio, 1),
+            'file_count': 1
+        })
+    
+    # Multiple files: create ZIP
+    zip_filename = f"converted_{timestamp}.zip"
+    zip_path = os.path.join(CONVERTED_FOLDER, zip_filename)
+    
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+        used_names = {}
+        for cf in converted_files:
+            # Handle duplicate names inside ZIP
+            name = cf['clean_name']
+            if name in used_names:
+                used_names[name] += 1
+                base = Path(name).stem
+                ext = Path(name).suffix
+                name = f"{base}_{used_names[name]}{ext}"
+            else:
+                used_names[name] = 0
+            zf.write(cf['path'], name)
+    
+    zip_size = os.path.getsize(zip_path)
+    compression_ratio = ((total_original_size - total_converted_size) / total_original_size * 100) if total_converted_size < total_original_size else 0
+    
+    return jsonify({
+        'status': 'success',
+        'message': f'{len(converted_files)} images converted successfully',
+        'filename': zip_filename,
+        'download_url': f'/get-converted-image/{zip_filename}',
+        'original_size': total_original_size,
+        'converted_size': total_converted_size,
+        'compression_ratio': round(compression_ratio, 1),
+        'file_count': len(converted_files)
+    })
 
 @app.route('/get-converted-image/<filename>')
 def get_converted_image(filename):
