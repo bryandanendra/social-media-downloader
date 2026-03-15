@@ -31,6 +31,68 @@ for folder in [UPLOAD_FOLDER, CONVERTED_FOLDER, DOWNLOAD_FOLDER, CACHE_FOLDER]:
 url_cache = {}
 
 # Functions for Video Downloader
+def force_reencode_to_h264(filepath):
+    """Force re-encode video to H.264 + AAC for maximum compatibility (QuickTime, After Effects, etc.)
+    
+    This ensures videos from Instagram/TikTok that may use VP9/AV1/HEVC codecs
+    are converted to universally compatible H.264 + AAC format.
+    """
+    if not os.path.exists(filepath) or not filepath.lower().endswith('.mp4'):
+        return filepath
+    
+    # Check if the video already uses H.264 codec
+    try:
+        probe_result = subprocess.run(
+            ['ffprobe', '-v', 'error', '-select_streams', 'v:0',
+             '-show_entries', 'stream=codec_name', '-of', 'csv=p=0', filepath],
+            capture_output=True, text=True, timeout=10
+        )
+        current_codec = probe_result.stdout.strip()
+        if current_codec == 'h264':
+            print(f"✅ Video already using H.264 codec, skipping re-encode: {filepath}")
+            return filepath
+        else:
+            print(f"⚠️ Video using {current_codec} codec, re-encoding to H.264...")
+    except Exception as e:
+        print(f"Could not probe codec, will re-encode anyway: {e}")
+    
+    # Re-encode to H.264 + AAC
+    temp_output = filepath.replace('.mp4', '_h264_temp.mp4')
+    try:
+        result = subprocess.run([
+            'ffmpeg', '-i', filepath,
+            '-c:v', 'libx264',
+            '-preset', 'fast',
+            '-crf', '23',
+            '-c:a', 'aac',
+            '-b:a', '192k',
+            '-movflags', '+faststart',
+            '-pix_fmt', 'yuv420p',
+            '-y',  # Overwrite output
+            temp_output
+        ], capture_output=True, text=True, timeout=300)
+        
+        if result.returncode == 0 and os.path.exists(temp_output) and os.path.getsize(temp_output) > 0:
+            # Replace original with re-encoded version
+            os.remove(filepath)
+            os.rename(temp_output, filepath)
+            print(f"✅ Re-encoded to H.264 successfully: {filepath}")
+        else:
+            # Clean up temp file if conversion failed
+            if os.path.exists(temp_output):
+                os.remove(temp_output)
+            print(f"⚠️ Re-encode failed, keeping original: {result.stderr[:200]}")
+    except subprocess.TimeoutExpired:
+        if os.path.exists(temp_output):
+            os.remove(temp_output)
+        print(f"⚠️ Re-encode timed out, keeping original file")
+    except Exception as e:
+        if os.path.exists(temp_output):
+            os.remove(temp_output)
+        print(f"⚠️ Re-encode error, keeping original: {e}")
+    
+    return filepath
+
 def clean_tiktok_title(title):
     # If hashtags (#) exist, take text before the first hashtag
     if '#' in title:
@@ -160,21 +222,6 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
             'noplaylist': True,
             'quiet': True,
             'no_warnings': True,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4',
-            }],
-            'postprocessor_args': {
-                'videoconvertor': [
-                    '-c:v', 'libx264',
-                    '-preset', 'fast',
-                    '-crf', '23',
-                    '-c:a', 'aac',
-                    '-b:a', '192k',
-                    '-movflags', '+faststart',
-                    '-pix_fmt', 'yuv420p'
-                ]
-            },
         }
         
 
@@ -202,21 +249,6 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
             'noplaylist': True,
             'quiet': True,
             'no_warnings': True,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4',
-            }],
-            'postprocessor_args': {
-                'videoconvertor': [
-                    '-c:v', 'libx264',
-                    '-preset', 'fast',
-                    '-crf', '23',
-                    '-c:a', 'aac',
-                    '-b:a', '192k',
-                    '-movflags', '+faststart',
-                    '-pix_fmt', 'yuv420p'
-                ]
-            },
         }
         
         # If MP3 format is selected
@@ -361,6 +393,16 @@ def download_video(url, platform, format_type='mp4', use_cookies=False, resoluti
                     title = os.path.splitext(os.path.basename(actual_file))[0]
             elif actual_file:
                 new_filename = actual_file
+            
+            # Force re-encode to H.264 for Instagram/TikTok to ensure QuickTime compatibility
+            if platform in ('instagram', 'tiktok') and format_type == 'mp4' and os.path.exists(new_filename):
+                if task_id:
+                    download_progress[task_id] = {
+                        'status': 'processing',
+                        'percent': '100',
+                        'message': 'Re-encoding video for compatibility...'
+                    }
+                force_reencode_to_h264(new_filename)
             
             result = {
                 'status': 'success',
